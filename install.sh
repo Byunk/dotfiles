@@ -73,6 +73,10 @@ function install() {
     done
   fi
 
+  if selection_prompt 'Vim'; then
+	  backup_then_symlink ${DOT_DIR}/vim/vimrc ~/.vimrc
+  fi
+
   if selection_prompt 'Nvim'; then
 	  backup_then_symlink ${DOT_DIR}/nvim ~/.config/nvim
   fi

@@ -1,0 +1,47 @@
+" Syntax highlight
+syntax on
+
+set number
+set autoindent smartindent
+
+" Highlight cursor line horizontally
+set cursorline
+
+" Set shift width to 4
+set shiftwidth=4
+
+" Set tab width to 4
+set tabstop=4
+
+" Do not wrap lines
+set nowrap
+
+" Incrementally highlight matching character
+set incsearch
+
+" Ignore capital letter when searching
+set ignorecase
+
+" Allow search specifically for capital letters
+set smartcase
+
+" Show matching words when searching
+set showmatch
+
+" Enable auto completion menu after pressing TAB.
+set wildmenu
+
+" Make wildmenu behave like similar to Bash completion.
+set wildmode=list:longest
+
+" There are certain files that we would never want to edit with Vim.
+" Wildmenu will ignore files with these extensions.
+set wildignore=*.docx,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.exe,*.flv,*.img,*.xlsx
+
+" Enable backspace
+set backspace=indent,eol,start
+
+" Auto closing
+inoremap { {}<left>
+inoremap {<CR> {<CR>}<ESC>O
+inoremap {;<CR> {<CR>};<ESC>O
