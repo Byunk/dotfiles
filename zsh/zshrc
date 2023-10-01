@@ -1,0 +1,21 @@
+export EDITOR=nvim
+
+alias vi=nvim
+alias vim=nvim
+
+export DOT_DIR=~/dotfiles
+export PLUGIN_DIR=~/.bkshell/zsh-plugins
+
+# Sourcing
+if [[ -t 0 ]]; then
+	source $DOT_DIR/zsh/aliases.zsh
+	source $DOT_DIR/zsh/prompt.zsh
+
+	source $DOT_DIR/zsh/plugins.zsh
+	plug zsh-users/zsh-autosuggestions
+	plug zsh-users/zsh-syntax-highlighting
+
+	source $DOT_DIR/zsh/init.zsh
+	init
+fi
+
