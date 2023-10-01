@@ -1,12 +1,13 @@
 # dotfiles
 
-Collection of dotfiles that I use with minimal effort to maintain.
+Collection of dotfiles that I use to maintain with minimal effort.
 
 ## Usage
 
 Clone this repository into your home directory.
 
 ```sh
+cd dotfiles
 ./install.sh --install
 
 # For mac os
