@@ -4,6 +4,7 @@ alias python='python3'
 alias vim='nvim'
 alias vi='nvim'
 alias k='kubectl'
+alias g++='g++ -std=c++17'
 
 # shell
 bindkey "^[^[[D" forward-word
