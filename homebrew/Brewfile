@@ -3,6 +3,7 @@ tap "homebrew/cask"
 tap "homebrew/core"
 
 brew "git"
+brew "lf"
 brew "neovim"
 brew "nvm"
 brew "reattach-to-user-namespace"
