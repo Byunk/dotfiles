@@ -5,6 +5,7 @@ alias vim='nvim'
 alias vi='nvim'
 alias k='kubectl'
 alias g++='g++ -std=c++17'
+alias t='todo.sh'
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm

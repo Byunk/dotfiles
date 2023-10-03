@@ -1,8 +1,5 @@
 export EDITOR=nvim
 
-alias vi=nvim
-alias vim=nvim
-
 export DOT_DIR=~/dotfiles
 export PLUGIN_DIR=~/.bkshell/zsh-plugins
 
