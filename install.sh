@@ -87,6 +87,7 @@ function install() {
 
   if selection_prompt 'Zsh'; then
     backup_then_symlink ${DOT_DIR}/zsh/zshrc ~/.zshrc
+	source ~/.zshrc
   fi
 
   yellow_echo 'Ending the dotfiles installation...'

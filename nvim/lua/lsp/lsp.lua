@@ -9,7 +9,7 @@ require("mason").setup({
 })
 
 local server_list = { 
-	"clangd", "dockerls", "docker_compose_language_service", "jsonls", "tsserver", "lua_ls", "pyright" 
+	"clangd", "tsserver", "lua_ls", "pyright" 
 }
 
 local mason_lspconfig = require('mason-lspconfig')
@@ -23,9 +23,6 @@ local lspconfig = require('lspconfig')
 local lsp_defaults = lspconfig.util.default_config
 
 lspconfig.clangd.setup {}
-lspconfig.dockerls.setup {}
-lspconfig.docker_compose_language_service.setup {}
-lspconfig.jsonls.setup {}
 lspconfig.tsserver.setup {}
 lspconfig.lua_ls.setup {}
 lspconfig.pyright.setup {}
