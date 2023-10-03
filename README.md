@@ -14,6 +14,8 @@ cd dotfiles
 ./install.sh --macos-install 
 ```
 
+When you install iterm configuration, set general - check Load preferences from a custom folder or URL to ~/dotfiles/iterm and save changes to Automatically.
+
 ## Additional Dependencies
 
 - Install [vim plug: vim plugin manager](https://github.com/junegunn/vim-plug) and execute `:PlugInstall` in `nvim`
