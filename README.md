@@ -16,8 +16,13 @@ cd dotfiles
 
 When you install iterm configuration, set general - check Load preferences from a custom folder or URL to ~/dotfiles/iterm and save changes to Automatically.
 
+
+## Configuration
+
+### Iterm
+
+If you want to save the Iterm preferences do not directly save preference on `dotfiles/iterm`. Indeed, copy on `~/Library/preferences/` directory and commit `dotfiles`. (`general` -> `preferences` -> `Save Current Settings to Folder`)
+
 ## Additional Dependencies
 
 - Install [vim plug: vim plugin manager](https://github.com/junegunn/vim-plug) and execute `:PlugInstall` in `nvim`
-- Configure Iterm theme in https://iterm2colorschemes.com/.
-  - I am using [Snazzy](https://raw.githubusercontent.com/mbadolato/iTerm2-Color-Schemes/master/schemes/Snazzy.itermcolors)
