@@ -127,7 +127,7 @@ function macos-install() {
   fi
 
   if selection_prompt 'Iterm'; then
-	  backup_then_symlink ${DOT_DIR}/iterm/com.googlecode.iterm2.plist ~/Library/Preferences/com.googlecode.iterm2.plist
+	  mv ${DOT_DIR}/iterm/com.googlecode.iterm2.plist ~/Library/Preferences/com.googlecode.iterm2.plist
   fi
 
   yellow_echo 'Ending the macos specific installation...'
