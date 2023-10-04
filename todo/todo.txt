@@ -1,4 +1,5 @@
 Read 333 project article
-research TLB shootdown +DBMS
 (A) make PPT for monthly sync
 take CKAD course +CKAD
+add sync pipeline to @todo.txt
+333 project @writing

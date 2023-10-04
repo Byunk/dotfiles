@@ -91,9 +91,6 @@ function install() {
   fi
 
   if selection_prompt 'Todo'; then
-	backup_then_symlink ${DOT_DIR}/todo/todo.txt ~/.todo/todo.txt
-	backup_then_symlink ${DOT_DIR}/todo/done.txt ~/.todo/done.txt
-	backup_then_symlink ${DOT_DIR}/todo/report.txt ~/.todo/report.txt
 	backup_then_symlink ${DOT_DIR}/todo/todo.cfg ~/.todo.cfg
 	source ~/.todo.cfg
   fi
