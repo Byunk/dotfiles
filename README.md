@@ -14,8 +14,15 @@ cd dotfiles
 ./install.sh --macos-install 
 ```
 
-When you install iterm configuration, set general - check Load preferences from a custom folder or URL to ~/dotfiles/iterm and save changes to Automatically.
+For update, use `update.sh`
 
+```sh
+update iterm config
+./update.sh --iterm
+
+update todo.txt-cli
+./update.sh --todo
+```
 
 ## Configuration
 
