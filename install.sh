@@ -73,6 +73,9 @@ function install() {
     done
   fi
 
+  if selection_prompt 'Netrc'; then
+	  backup_then_symlink ${DOT_DIR}/netrc/netrc ~/.netrc
+
   if selection_prompt 'Vim'; then
 	  backup_then_symlink ${DOT_DIR}/vim/vimrc ~/.vimrc
   fi

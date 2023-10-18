@@ -1,0 +1,9 @@
+machine github.tools.sap
+  login 
+  password 
+machine github.wdf.sap.corp
+  login 
+  password 
+machine github.com
+  login 
+  password 
