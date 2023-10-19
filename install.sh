@@ -3,160 +3,197 @@
 export DOT_DIR=~/dotfiles
 export DOT_BACKUP_DIR=~/dotfiles.bu
 
-########## HELPER FUNCTIONS ##########
+# Utils
 
-# Prints regular messages
 function green_echo() {
-  echo -e "\033[0;32m[Message] ${1}\033[0m"
+	echo -e "\033[0;32m[Message] ${1}\033[0m"
 }
 
-# Prints prompts requiring user attention
 function yellow_echo() {
-  echo
-  echo -e "\033[0;33m[Attention] ${1}\033[0m"
-  echo
+	echo
+	echo -e "\033[0;33m[Attention] ${1}\033[0m"
+	echo
 }
 
-# Prints error prompts
 function red_echo() {
-  echo
-  echo -e "\033[0;31m[Fatal] ${1}\033[0m"
-  echo
+	echo
+	echo -e "\033[0;31m[Fatal] ${1}\033[0m"
+	echo
 }
 
 # Checks if the script is located in $DOT_DIR. Else, end the script
 function verify_script_dir() {
-  script_dir=$( cd -- "$( dirname -- ${BASH_SOURCE[0]} )" &> /dev/null && pwd )
-  if [[ "$script_dir" != "$DOT_DIR" ]]; then
-    red_echo "${DOT_DIR} directory not found"
-    exit 1
-  fi
+	script_dir=$( cd -- "$( dirname -- ${BASH_SOURCE[0]} )" &> /dev/null && pwd )
+	if [[ "$script_dir" != "$DOT_DIR" ]]; then
+		red_echo "${DOT_DIR} directory not found"
+		exit 1
+	fi
 }
 
 # Prompts user yes/no for the installation of $1
 function selection_prompt() {
-  yellow_echo "Would you like to install $1 related files?"
-  read -p "y/n? > " -n1 -r REPLY # -p for prompt, -n1 for reading 1 character, -r for reading literally
-  echo
-  if [[ $REPLY =~ ^[Yy]$ ]]; then
-    green_echo "Deploying $1 related files..."
-    true
-  else
-    green_echo "Skipping $1 related files..."
-    false
-  fi
+	yellow_echo "Would you like to install $1 related files?"
+	read -p "y/n? > " -n1 -r REPLY # -p for prompt, -n1 for reading 1 character, -r for reading literally
+	echo
+	if [[ $REPLY =~ ^[Yy]$ ]]; then
+		green_echo "Deploying $1 related files..."
+		true
+	else
+		green_echo "Skipping $1 related files..."
+		false
+	fi
 }
 
 # Creates a symlink for $1 at $2
 # If a file/dir already exists at $2, move to $DOT_BACKUP_DIR
 # E.g.: backup_then_symlink ~/dotfiles/i3/config ~/.config/i3/config
 function backup_then_symlink() {
-  if [[ -e $2 ]]; then
-    yellow_echo "Existing $2 will be moved to ${DOT_BACKUP_DIR}."
-    mkdir -p $DOT_BACKUP_DIR
-    mv $2 ${DOT_BACKUP_DIR}/
-  fi
-  green_echo "Creating symlink for $1 at $2..."
-  ln -s $1 $2
+	if [[ -e $2 ]]; then
+		yellow_echo "Existing $2 will be moved to ${DOT_BACKUP_DIR}."
+		mkdir -p $DOT_BACKUP_DIR
+		mv $2 ${DOT_BACKUP_DIR}/
+	fi
+
+	if [[ ! -d $2 ]]; then
+		mkdir -p $2
+	fi
+
+	green_echo "Creating symlink for $1 at $2..."
+	ln -s $1 $2
 }
 
-########## INSTALL FUNCTIONS ##########
+function curl() {
+	CURL='/usr/bin/curl'
 
-# Installs cross-platform core utilities
+	if [[ $# -lt 2 ]]; then
+		red_echo "Invalid parameters for curl"
+		exit 1
+	fi
+
+	if [[ ! -z "$3" ]]; then
+		$CURL -s $1 $2 > $3
+	else
+		$CURL -s $1 $2
+	fi
+}
+
+# Core
+
+# Install core utils for linux without package manager
 function install() {
-  verify_script_dir
+	verify_script_dir
 
-  if selection_prompt 'Git'; then
-    CURRENT_FILES=("gitignore_global" "gitconfig")
-    for FILE in ${CURRENT_FILES[@]}; do
-      backup_then_symlink ${DOT_DIR}/git/${FILE} ~/.${FILE}
-    done
-  fi
+	if [[ "$OSTYPE" != "linux"* ]]; then
+		red_echo "You are not using linux! OSTYPE == $OSTYPE"
+		exit 1
+	fi
 
-  if selection_prompt 'Netrc'; then
-	  backup_then_symlink ${DOT_DIR}/netrc/netrc ~/.netrc
+	if selection_prompt 'neovim'; then
+		yellow_echo "Select installation path"
+		read -p "1(/usr/bin) / 2(~/.local/bin) " -n1 REPLY
+		echo
+		case $REPLY in
+			"1")
+				NVIM_DIR="/usr/bin"
+			;;
+			"2")
+				NVIM_DIR="$HOME/.local/bin"
+			;;
+			*)
+				red_echo 'Invalid path'
+				exit 1
+			;;
+		esac
 
-  if selection_prompt 'Vim'; then
-	  backup_then_symlink ${DOT_DIR}/vim/vimrc ~/.vimrc
-  fi
+		green_echo "Installing neovim into $NVIM_DIR"
+		echo
 
-  if selection_prompt 'Nvim'; then
-	  backup_then_symlink ${DOT_DIR}/nvim ~/.config/nvim
-  fi
+		if [[ ! -d $NVIM_DIR ]]; then
+			mkdir $NVIM_DIR
+		fi
 
-  if selection_prompt 'Tmux'; then
-    backup_then_symlink ${DOT_DIR}/tmux/tmux.conf ~/.tmux.conf
-  fi
+		curl "-cL0" "https://github.com/neovim/neovim/releases/latest/download/nvim.appimage" "$NVIM_DIR/nvim"
 
-  if selection_prompt 'Zsh'; then
-    backup_then_symlink ${DOT_DIR}/zsh/zshrc ~/.zshrc
-	source ~/.zshrc
-  fi
+		/bin/chmod u+x "$NVIM_DIR/nvim"
 
-  if selection_prompt 'Todo'; then
-	backup_then_symlink ${DOT_DIR}/todo/todo.cfg ~/.todo.cfg
-	source ~/.todo.cfg
-  fi
+		if selection_prompt 'VimPlug'; then
+			sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
+			https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+			nvim -c PlugInstall -c q -c q
+		fi
+	fi
 
-  yellow_echo 'Ending the dotfiles installation...'
+	yellow_echo 'Ending installation...'
 }
 
-# Installs Homebrew formulae and runs macOS specific 
+# Install core utilities for macOS
 function macos-install() {
-  green_echo "Starting macOS specific installlation process..."
+	verify_script_dir
 
-  verify_script_dir
+	if [[ "$OSTYPE" != "darwin"* ]]; then
+		red_echo "You are not using macOS! OSTYPE == $OSTYPE"
+		exit 1
+	fi
 
-  if [[ "$OSTYPE" != "darwin"* ]]; then
-    red_echo "You are not using macOS! OSTYPE == $OSTYPE"
-    exit 1
-  fi
+	if selection_prompt 'homebrew'; then
+		brew bundle --file ${DOT_DIR}/homebrew/Brewfile
+	fi
 
-  green_echo 'Homebrew Core Formulae/Casks:
-  Existing formulae will be uninstalled.
-  Some casks might not be compitable with non-macOS systems.
-  Do you want to proceed?'
-  if selection_prompt 'Homebrew Core'; then
-    # brew remove --force $(brew list --formula)
-    # brew remove --cask --force $(brew list)
-    brew bundle --file ${DOT_DIR}/homebrew/Brewfile
-  fi
+	if selection_prompt 'macOS system settings'; then
+		. "${DOT_DIR}/macos/macos-settings.sh"
+	fi
 
-  if selection_prompt 'macOS Settings'; then
-    . "${DOT_DIR}/macos/macos-settings.sh"
-  fi
+	yellow_echo 'It replaces the existing preferences.
+	Do you want to proceed?'
+	if selection_prompt 'Iterm';
+		mv ${DOT_DIR}/iterm/com.googlecode.iterm2.plist ~/Library/Preferences/com.googlecode.iterm2.plist
+	fi
 
-  if selection_prompt 'Iterm'; then
-	  mv ${DOT_DIR}/iterm/com.googlecode.iterm2.plist ~/Library/Preferences/com.googlecode.iterm2.plist
-  fi
-
-  yellow_echo 'Ending the macos specific installation...'
+	yellow_echo 'Ending installation...'
 }
 
-########## AUXILIARY FUNCTIONS ##########
 
-# Deletes $DOT_BACKUP_DIR directory
+# Install configurations
+function install-config() {
+	verify_script_dir
+
+	if selection_prompt 'git'; then
+		CURRENT_FILES=("gitignore_global" "gitconfig")
+		for FILE in ${CURRENT_FILES[@]}; do
+			backup_then_symlink ${DOT_DIR}/git/${FILE} ~/.${FILE}
+		done
+	fi
+
+	if selection_prompt 'vim'; then
+		backup_then_symlink ${DOT_DIR}/vim/vimrc ~/.vimrc
+	fi
+
+	if selection_prompt 'Nvim'; then
+		backup_then_symlink ${DOT_DIR}/nvim ~/.config
+	fi
+
+	if selection_prompt 'Tmux'; then
+		backup_then_symlink ${DOT_DIR}/tmux/tmux.conf ~/.tmux.conf
+	fi
+
+	if selection_prompt 'Zsh'; then
+		backup_then_symlink ${DOT_DIR}/zsh/zshrc ~/.zshrc
+		source ~/.zshrc
+	fi
+
+	if selection_prompt 'Todo'; then
+		backup_then_symlink ${DOT_DIR}/todo/todo.cfg ~/.todo.cfg
+		source ~/.todo.cfg
+	fi
+
+	yellow_echo 'Ending installation...'
+}
+
 function delete_backup() {
-  yellow_echo "Deleting ${DOT_BACKUP_DIR}..."
-  rm -rf $DOT_BACKUP_DIR
+	yellow_echo "Deleting ${DOT_BACKUP_DIR}..."
+	rm -rf $DOT_BACKUP_DIR
 }
 
-# Installs font from the supplied URL to ~/.local/share/fonts
-# $1: URL of the font zip file to be installed
-#     It is highly recommended that the URL comes from https://nerdfonts.com/font-downloads
-function install_font() {
-  if [[ ! $1 ]]; then red_echo 'Target URL is missing!'; exit 1; fi
-  mkdir -p ~/.local/share/fonts
-  cd ~/.local/share/fonts
-  wget -O temp-font.zip $1
-  unzip temp-font.zip
-  rm temp-font.zip
-  fc-cache -vf
-  cd - > /dev/null 2>&1
-  green_echo "A font from $1 successfully installed!"
-}
-
-# Prints help message about this script
 function help() {
   green_echo "
                     Dotfiles Utility Script Usage
@@ -167,49 +204,38 @@ function help() {
   -------------------------------------------------------------------
 
   args:
-    --install             : Deploy configuration symlinks for cross-platform utilities
+	--insatll             : Deploy core utilities for Linux
+    --install-config      : Deploy configuration symlinks for cross-platform utilities
     --macos-install       : Deploy configuration symlinks for macOS and related utilities
     --delete-backup       : Delete $DOT_BACKUP_DIR
-    --install-font <URL>  : wget a font file from URL (preferably from NERDFont website) and install it at ~/.local/share/fonts/
   "
 }
 
-########### MAIN CALL HERE ##########
-
-# Executes util functionalities based on the supplied flag ($1)
 function main() {
-  case $1 in
-    "--install")
-      install
-    ;;
-    "--macos-install")
-      macos-install
-    ;;
-    "--yabai-install")
-      yabai_install
-    ;;
-    "--delete-backup")
-      delete_backup
-    ;;
-    "--add-ssh-shortcut")
-      add_ssh_shortcut
-    ;;
-    "--install-font")
-      install_font $2
-    ;;
-    "--help")
-      help
-    ;;
-    *)
-     red_echo 'Invalid option'
-     help
-    ;;
-  esac
+	case $1 in
+		"--install")
+			install
+		;;
+		"--macos-install")
+			macos-install
+		;;
+		"--install-config")
+			install-config
+		;;
+		"--delete-backup")
+			delete_backup
+		;;
+		"--help")
+			help
+		;;
+		*)
+			red_echo 'Invalid option'
+			help
+		;;
+	esac
 
-  exit 0
+	exit 0
 }
 
 main $@
-
-########### MAIN CALL HERE ##########
 
