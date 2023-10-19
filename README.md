@@ -8,10 +8,15 @@ Clone this repository into your home directory.
 
 ```sh
 cd dotfiles
+
+# For linux without package manager
 ./install.sh --install
 
 # For mac os
-./install.sh --macos-install 
+./install.sh --macos-install
+
+# For configuration dotfiles
+./install.sh --install-config
 ```
 
 For update, use `update.sh`
@@ -29,7 +34,3 @@ update todo.txt-cli
 ### Iterm
 
 If you want to save the Iterm preferences do not directly save preference on `dotfiles/iterm`. Indeed, copy on `~/Library/preferences/` directory and commit `dotfiles`. (`general` -> `preferences` -> `Save Current Settings to Folder`)
-
-## Additional Dependencies
-
-- Install [vim plug: vim plugin manager](https://github.com/junegunn/vim-plug) and execute `:PlugInstall` in `nvim`
