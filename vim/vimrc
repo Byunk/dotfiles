@@ -2,7 +2,7 @@
 syntax on
 
 set number
-set autoindent smartindent
+set autoindent smartindent smarttab
 
 " Highlight cursor line horizontally
 set cursorline
@@ -11,7 +11,7 @@ set cursorline
 set shiftwidth=4
 
 " Set tab width to 4
-set tabstop=4
+set tabstop=4 softtabstop=4
 
 " Do not wrap lines
 set nowrap
@@ -40,6 +40,12 @@ set wildignore=*.docx,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.exe,*.flv,*.img,*.xlsx
 
 " Enable backspace
 set backspace=indent,eol,start
+
+" Enable mouse
+set mouse=a
+
+" Share clipboard with macos
+set clipboard=unnamedplus
 
 " Auto closing
 inoremap { {}<left>
