@@ -2,6 +2,8 @@ set runtimepath+=~/.vim,~/.vim/after
 set packpath+=~/.vim
 source ~/.vimrc
 
+set clipboard^=unnamed,unnamedplus
+
 call plug#begin()
 
 Plug 'williamboman/mason.nvim'
