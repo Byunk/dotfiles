@@ -41,9 +41,9 @@ let g:NERDTreeDirArrowExpandable="+"
 let g:NERDTreeDirArrowCollapsible="~"
 
 set background=dark
-colorscheme tokyonight-moon 
+silent! colorscheme tokyonight-moon 
 let g:airline_theme='base16'
 
-lua require('lsp/lsp')
-lua require('lsp/completion')
-lua require('package')
+silent! lua require('lsp/lsp')
+silent! lua require('lsp/completion')
+silent! lua require('package')
