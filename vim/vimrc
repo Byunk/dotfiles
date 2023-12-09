@@ -13,8 +13,8 @@ set shiftwidth=4
 " Set tab width to 4
 set tabstop=4 softtabstop=4
 
-" Do not wrap lines
-set nowrap
+" Wrap lines
+set tw=80 wrap
 
 " Incrementally highlight matching character
 set incsearch
