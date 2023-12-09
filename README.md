@@ -1,52 +1,11 @@
 # dotfiles
 
-Collection of dotfiles that I use to maintain with minimal effort.
+Personal archive of dotfiles. The goal is to manage dotfiles and construct development environment conveniently. All scripts are written in Bash to ensure portability.
 
 ## Usage
 
-Clone this repository into your home directory.
+`scripts/install-packages.sh`: install necessary packages
 
-```sh
-cd dotfiles
+`scripts/install.sh`: install dotfiles
 
-# For linux without package manager
-./install.sh --install
-
-# For mac os
-./install.sh --macos-install
-
-# For configuration dotfiles
-./install.sh --install-config
-```
-
-For update, use `update.sh`
-
-```sh
-update iterm config
-./update.sh --iterm
-
-update todo.txt-cli
-./update.sh --todo
-```
-
-## Configuration
-
-### Iterm
-
-If you want to save the Iterm preferences do not directly save preference on `dotfiles/iterm`. Indeed, copy on `~/Library/preferences/` directory and commit `dotfiles`. (`general` -> `preferences` -> `Save Current Settings to Folder`)
-
-## Awesome List
-
-### Command Line Tools
-
-- [lf](https://github.com/gokcehan/lf)
-- [neovim](https://github.com/neovim/neovim)
-- [tmux](https://github.com/tmux/tmux)
-- [zsh]()
-
-### GUI for macOS
-
-- [alfred](https://www.alfredapp.com/)
-- [hiddenbar](https://github.com/dwarvesf/hidden)
-- [rectangle](https://rectangleapp.com/)
-- [flycut](https://github.com/TermiT/Flycut)
+`scripts/update.sh`: update local changes into dotfiles
