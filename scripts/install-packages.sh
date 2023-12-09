@@ -104,18 +104,6 @@ function mac-install() {
 
     brew update -y
 
-    if ask_for_installation "zsh" && ! check_if_installed "zsh"; then
-        brew install zsh
-    fi
-
-    if ask_for_installation "tmux" && ! check_if_installed "tmux"; then
-        brew install tmux
-    fi
-
-    if ask_for_installation "neovim" && ! check_if_installed "nvim"; then
-        brew install neovim
-    fi
-
     if ask_for_installation "homebrew bundle"; then
         brew bundle --file ${SCRIPT_DIR}/homebrew/Brewfile
     fi
