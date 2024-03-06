@@ -3,6 +3,8 @@ export EDITOR=nvim
 export DOT_DIR=~/dotfiles
 export PLUGIN_DIR=~/.bkshell/zsh-plugins
 
+export TERM="xterm-256color"
+
 # Sourcing
 if [[ -t 0 ]]; then
 	source $DOT_DIR/zsh/aliases.zsh
