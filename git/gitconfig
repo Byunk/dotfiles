@@ -2,17 +2,14 @@
 	name = Byunk
 	email = kyungho.byoun@gmail.com
 [core]
-	precomposeunicode = true
-	quotepath = false
-	excludesfile = /Users/kyungho/.gitignore_global
 	editor = vim
 [alias]
 	clear = !git branch | grep -v \"master\" | grep -v \"main\" | xargs git branch -D
 [fetch]
-  # Delete out deted branch during fetch
 	prune = true
 [init]
 	defaultBranch = main
 [credential]
 	helper = cache
-
+[pull]
+	ff = only
