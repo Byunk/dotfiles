@@ -55,6 +55,10 @@ function install.nvim() {
     "${NVIM}" +PlugInstall +qall
 }
 
+function install.fzf() {
+    backup_then_symlink "${DOT_DIR}/fzf/fzfrc" "${HOME}/.fzfrc"
+}
+
 function install.iterm.conf() {
     backup.and.symlink "${DOT_DIR}/iterm/com.googlecode.iterm2.plist" "${HOME}/Library/Preferences/com.googlecode.iterm2.plist"
 }

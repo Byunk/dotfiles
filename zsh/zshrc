@@ -4,11 +4,13 @@ export DOT_DIR=~/dotfiles
 export PLUGIN_DIR=~/.bkshell/zsh-plugins
 
 export TERM="xterm-256color"
+export FZF_DEFAULT_OPTS_FILE="~/.fzfrc" 
 
 # Sourcing
 if [[ -t 0 ]]; then
 	source $DOT_DIR/zsh/aliases.zsh
 	source $DOT_DIR/zsh/prompt.zsh
+	source $DOT_DIR/zsh/key-bindings.zsh
 
 	source $DOT_DIR/zsh/plugins.zsh
 	plug zsh-users/zsh-autosuggestions
@@ -17,4 +19,3 @@ if [[ -t 0 ]]; then
 	source $DOT_DIR/zsh/init.zsh
 	init
 fi
-
