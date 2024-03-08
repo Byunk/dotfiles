@@ -1,11 +1,12 @@
 # dotfiles
 
-Personal archive of dotfiles. The goal is to manage dotfiles and construct development environment conveniently. All scripts are written in Bash to ensure portability.
+Personal dotfiles.
 
 ## Usage
 
-`scripts/install-packages.sh`: install necessary packages
-
-`scripts/install.sh`: install dotfiles
-
-`scripts/update.sh`: update local changes into dotfiles
+```bash
+# Install packages
+./scripts/<os>/install-packages.sh
+# Install dotfiles
+./scripts/install.sh
+```
