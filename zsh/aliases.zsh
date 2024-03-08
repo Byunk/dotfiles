@@ -20,6 +20,7 @@ alias l='ls -A -l -h --color=auto' # All file except . and .., list view, displa
 alias cl='clear'
 alias gs="git status"
 alias ga="git add"
+alias gc="git commit -m"
 alias vf="vi \$(fzf)" 
 
 alias dot="cd \"$DOT_DIR\""
