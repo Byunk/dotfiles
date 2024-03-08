@@ -4,7 +4,8 @@ export DOT_DIR=~/dotfiles
 export PLUGIN_DIR=~/.bkshell/zsh-plugins
 
 export TERM="xterm-256color"
-export FZF_DEFAULT_OPTS_FILE="~/.fzfrc" 
+export FZF_DEFAULT_OPTS_FILE="$HOME/.fzfrc" 
+source "${FZF_DEFAULT_OPTS_FILE}"
 
 # Sourcing
 if [[ -t 0 ]]; then
