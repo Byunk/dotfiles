@@ -19,6 +19,7 @@ bindkey "^[C" backward-word
 alias l='ls -A -l -h --color=auto' # All file except . and .., list view, display unit suffix for the size
 alias cl='clear'
 alias gs="git status"
+alias ga="git add"
 alias vf="vi \$(fzf)" 
 
 alias dot="cd \"$DOT_DIR\""
