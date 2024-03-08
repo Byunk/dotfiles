@@ -29,7 +29,7 @@ function backup.and.symlink() {
 }
 
 function install.git() {
-    backup_then_symlink "${DOT_DIR}/git/gitconfig" "${HOME}/.gitconfig"
+    backup.and.symlink "${DOT_DIR}/git/gitconfig" "${HOME}/.gitconfig"
     local username="$(ask "git username")"
     local email="$(ask "git email")"
     git config --global user.name "${username}"
@@ -37,26 +37,26 @@ function install.git() {
 }
 
 function install.tmux() {
-    backup_then_symlink "${DOT_DIR}/tmux/tmux.conf" "${HOME}/.tmux.conf"
+    backup.and.symlink "${DOT_DIR}/tmux/tmux.conf" "${HOME}/.tmux.conf"
 }
 
 function install.zsh() {
-    backup_then_symlink "${DOT_DIR}/zsh/zshrc" "${HOME}/.zshrc"
+    backup.and.symlink "${DOT_DIR}/zsh/zshrc" "${HOME}/.zshrc"
     chsh -s "$(which zsh)"
 }
 
 function install.vim() {
-    backup_then_symlink "${DOT_DIR}/vim/vimrc" "${HOME}/.vimrc"
+    backup.and.symlink "${DOT_DIR}/vim/vimrc" "${HOME}/.vimrc"
 }
 
 function install.nvim() {
-    backup_then_symlink "${DOT_DIR}/nvim" "${HOME}/.config/nvim"
+    backup.and.symlink "${DOT_DIR}/nvim" "${HOME}/.config/nvim"
     local NVIM="$(which nvim)"
     "${NVIM}" +PlugInstall +qall
 }
 
 function install.fzf() {
-    backup_then_symlink "${DOT_DIR}/fzf/fzfrc" "${HOME}/.fzfrc"
+    backup.and.symlink "${DOT_DIR}/fzf/fzfrc" "${HOME}/.fzfrc"
 }
 
 function install.iterm.conf() {
