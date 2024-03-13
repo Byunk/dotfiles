@@ -47,7 +47,7 @@ function install.tmux() {
 
 function install.zsh() {
     backup.and.symlink "${DOT_DIR}/zsh/zshrc" "${HOME}/.zshrc"
-    chsh -s "$(which zsh)"
+	source "${HOME}/.zshrc"
 }
 
 function install.vim() {
