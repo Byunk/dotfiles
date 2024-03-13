@@ -15,6 +15,11 @@ function install() {
     fi
 
     install.git
+	install.tmux
+	install.vim
+	install.nvim
+	install.fzf
+	install.zsh
 }
 
 # Creates a symlink from $1 to $2
