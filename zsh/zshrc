@@ -10,6 +10,8 @@ source "${FZF_DEFAULT_OPTS_FILE}"
 # Sourcing
 if [[ -t 0 ]]; then
 	source $DOT_DIR/zsh/aliases.zsh
+	source <(kubectl completion zsh)
+
 	source $DOT_DIR/zsh/prompt.zsh
 	source $DOT_DIR/zsh/key-bindings.zsh
 
