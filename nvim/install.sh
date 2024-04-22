@@ -1,4 +1,5 @@
 #!/bin/bash
+# https://github.com/neovim/neovim/blob/master/INSTALL.md
 set -e
 
 cd "$(dirname "$0")/.."
