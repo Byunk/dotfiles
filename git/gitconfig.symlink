@@ -22,7 +22,5 @@
         default = simple
 [pull]
 	ff = only
-[credential]
-	helper = osxkeychain
 [init]
 	defaultBranch = main
