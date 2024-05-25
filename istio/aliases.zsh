@@ -1,2 +1,2 @@
-alias i="istioctl $*"
-alias ic="istioctl --context $*"
+alias ic="istioctl $*"
+alias icc="istioctl --context $*"
