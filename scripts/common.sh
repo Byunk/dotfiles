@@ -1,32 +1,32 @@
 #!/bin/bash
 function exit.script() {
-    local error_message=$1
-    print.message "ERROR" "${error_message}"
-    exit 1
+	local error_message=$1
+	print.message "ERROR" "${error_message}"
+	exit 1
 }
 
 function print.message() {
-    local message_level=$1
-    local message_str=$2
+	local message_level=$1
+	local message_str=$2
 
-    case "${message_level}" in
-    "ERROR")
-        printf "\n\e[0;31mERROR: \e[m"
-        ;;
-    "WARNING")
-        printf "\n\e[1;33mWARNING: \e[m"
-        ;;
-    *)
-        printf "%s: " "${message_level}"
-        ;;
-    esac
+	case "${message_level}" in
+	"ERROR")
+		printf "\n\e[0;31mERROR: \e[m"
+		;;
+	"WARNING")
+		printf "\n\e[1;33mWARNING: \e[m"
+		;;
+	*)
+		printf "%s: " "${message_level}"
+		;;
+	esac
 
-    printf "%s\n" "${message_str}"
+	printf "%s\n" "${message_str}"
 }
 
 function exist.command() {
 	local executable=$1
-	command -v "${executable}" &> /dev/null 2>&1
+	command -v "${executable}" &>/dev/null 2>&1
 }
 
 function install.with.linux.package.manager() {
@@ -41,5 +41,13 @@ function install.with.linux.package.manager() {
 		zypper install -y "${package}"
 	else
 		exit.script "No available package manager found"
-	fi 
+	fi
+}
+
+function is.linux() {
+	[[ "$(uname -s)" == "Linux" ]]
+}
+
+function is.amd() {
+	[[ "$(uname -m)" == "x86_64" ]]
 }
