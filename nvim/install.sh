@@ -10,6 +10,8 @@ base_dir=$(dirname "$curr_dir")
 
 source "$base_dir/scripts/common.sh"
 
+exist_command "nvim" && return
+
 if [ "$(get_os)" == "Linux" ]; then
 	if exist_command "apt"; then
 		add-apt-repository ppa:neovim-ppa/unstable
