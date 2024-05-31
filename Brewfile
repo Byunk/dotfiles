@@ -1,6 +1,4 @@
 tap "homebrew/bundle"
-tap "homebrew/cask"
-tap "homebrew/core"
 tap "homebrew/cask-fonts"
 
 brew "git"
@@ -16,4 +14,3 @@ brew "zsh"
 cask "alfred"
 cask "font-hack-nerd-font"
 cask "hiddenbar"
-cask "rectangle"

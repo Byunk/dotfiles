@@ -15,8 +15,5 @@ if [[ "$(get_os)" == "Linux" ]]; then
 		add-apt-repository ppa:neovim-ppa/unstable
 	fi
 
-	exist_command "nvim"
-	if [[ "$?" != "0" ]]; then
-		install_with_linux_package_manager "neovim"
-	fi
+	exist_command "nvim" || install_with_linux_package_manager "neovim"
 fi

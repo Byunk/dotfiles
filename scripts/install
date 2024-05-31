@@ -13,8 +13,8 @@ if [[ "$(get_os)" == "Darwin" ]]; then
 	echo "› brew bundle"
 	brew bundle
 
-	echo "› ./macos-setting.sh"
-	source macos-setting.sh
+	# echo "› ./macos-setting.sh"
+	# source macos-setting.sh
 fi
 
 # find the installers and run them iteratively
