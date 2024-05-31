@@ -1,2 +1,2 @@
-alias k="kubectl $*"
-alias kc="kubectl --context $*"
+alias k="kubectl"
+alias kc="kubectl --context"
