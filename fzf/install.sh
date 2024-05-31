@@ -1,18 +1,29 @@
 #!/bin/bash
-set -e
+set -euo pipefail
 
-cd "$(dirname "$0")/.."
-DOTFILES_ROOT=$(pwd -P)
+curr_dir=$(dirname "$0")
+base_dir=$(dirname "$curr_dir")
 
-source "${DOTFILES_ROOT}/scripts/common.sh"
+source "$base_dir/scripts/common.sh"
 
-PACKAGE="fzf"
-VERSION="0.52.1"
+version="0.52.1"
+type=""
 
-if is.linux && is.amd; then
-	OS="linux_amd64"
-	RELEASE="fzf-$VERSION-$OS.tar.gz"
-	URI="https://github.com/junegunn/fzf/releases/download/$VERSION/$RELEASE"
-	curl -LO $URI
-	mkdir -p "$DOTFILES_ROOT/bin" && tar -xzvf "$RELEASE" -C "$DOTFILES_ROOT/bin"
+if [[ "$(get_os)" == "Linux" ]]; then
+	type+="linux_"
+else
+	exit 0
 fi
+
+if [[ "$(get_arch)" == "x86_64" ]]; then
+	type+="amd64"
+elif [[ "$(get_arch)" == "arm64" ]]; then
+	type+="arm64"
+fi
+
+release="fzf-$version-$type.tar.gz"
+uri="https://github.com/junegunn/fzf/releases/download/$version/$release"
+
+curl -LO $uri
+mkdir -p "$base_dir/bin" && tar -xzvf "$release" -C "$base_dir/bin"
+rm "$release"

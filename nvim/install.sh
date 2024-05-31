@@ -1,19 +1,18 @@
 #!/bin/bash
+# 
 # https://github.com/neovim/neovim/blob/master/INSTALL.md
-set -e
+# 
 
-cd "$(dirname "$0")/.."
-DOTFILES_ROOT=$(pwd -P)
+set -euo pipefail
 
-source "${DOTFILES_ROOT}/scripts/common.sh"
+curr_dir=$(dirname "$0")
+base_dir=$(dirname "$curr_dir")
 
-PACKAGE="neovim"
+source "$base_dir/scripts/common.sh"
 
-if [ "$(uname -s)" == "Linux" ]; then
-	if exist.command "apt"; then
+if [ "$(get_os)" == "Linux" ]; then
+	if exist_command "apt"; then
 		add-apt-repository ppa:neovim-ppa/unstable
-		apt update && apt install "${PACKAGE}" -y
-	elif exist.command "zypper"; then
-		zypper install -y "${PACKAGE}"
 	fi
+	install_with_linux_package_manager "neovim"
 fi

@@ -1,32 +1,31 @@
 #!/bin/bash
-function exit.script() {
-	local error_message=$1
-	print.message "ERROR" "${error_message}"
-	exit 1
+# Get OS (Linux, Darwin)
+get_os() {
+	echo "$(uname -s)"
 }
 
-function print.message() {
-	local message_level=$1
-	local message_str=$2
-
-	case "${message_level}" in
-	"ERROR")
-		printf "\n\e[0;31mERROR: \e[m"
-		;;
-	"WARNING")
-		printf "\n\e[1;33mWARNING: \e[m"
-		;;
-	*)
-		printf "%s: " "${message_level}"
-		;;
-	esac
-
-	printf "%s\n" "${message_str}"
+# Get Archtype (x86_64, arm64)
+get_arch() {
+	echo "$(uname -m)"
 }
 
-function exist.command() {
-	local executable=$1
-	command -v "${executable}" &>/dev/null 2>&1
+exist_command() {
+	local executable="$1"
+	command -v "$executable" &>/dev/null 2>&1
+}
+
+install_with_linux_package_manager() {
+	local package="$1"
+	exist_command "$package" && return
+
+	if exist_command "apt"; then
+		apt update && apt install "$package" -y
+	elif exist_command "zypper"; then
+		zypper install -y "$package"
+	else
+		echo "ERROR: No available package manager found"
+		exit 1
+	fi
 }
 
 function install.with.linux.package.manager() {

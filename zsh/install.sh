@@ -1,13 +1,12 @@
 #!/bin/bash
-set -e
 
-cd "$(dirname "$0")/.."
-DOTFILES_ROOT=$(pwd -P)
+set -euo pipefail
 
-source "${DOTFILES_ROOT}/scripts/common.sh"
+curr_dir=$(dirname "$0")
+base_dir=$(dirname "$curr_dir")
 
-PACKAGE="zsh"
+source "$base_dir/scripts/common.sh"
 
-if [ "$(uname -s)" == "Linux" ]; then
-	install.with.linux.package.manager "${PACKAGE}"
+if [ "$(get_os)" == "Linux" ]; then
+	install_with_linux_package_manager "zsh"
 fi
