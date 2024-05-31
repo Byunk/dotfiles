@@ -25,5 +25,8 @@ return {
 	},
 	{
 		"nvim-tree/nvim-tree.lua"
+	},
+	{
+		"tpope/vim-commentary"
 	}
 }
