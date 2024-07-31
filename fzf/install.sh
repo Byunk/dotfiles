@@ -12,7 +12,7 @@ if [[ "$OS" != "linux" ]]; then
 	logErrorAndExit "This script is only for Linux"
 fi
 
-ARCH=$(getgetArch_arch)
+ARCH=$(getArch)
 
 RELEASE=""https://github.com/junegunn/fzf/releases/download/v$VERSION/fzf-$VERSION-${OS}_${ARCH}.tar.gz""
 
