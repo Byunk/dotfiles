@@ -1,29 +1,24 @@
 #!/bin/bash
 set -euo pipefail
 
-curr_dir=$(dirname "$0")
-base_dir=$(dirname "$curr_dir")
+source "$(dirname "$(dirname "$0")")/scripts/common.sh"
 
-source "$base_dir/scripts/common.sh"
+VERSION="0.54.2"
 
-version="0.52.1"
-type=""
+logInfo "Installing fzf..."
 
-if [[ "$(get_os)" == "Linux" ]]; then
-	type+="linux_"
-else
-	exit 0
+OS=$(getOS)
+if [[ "$OS" != "linux" ]]; then
+	logErrorAndExit "This script is only for Linux"
 fi
 
-if [[ "$(get_arch)" == "x86_64" ]]; then
-	type+="amd64"
-elif [[ "$(get_arch)" == "arm64" ]]; then
-	type+="arm64"
-fi
+ARCH=$(getgetArch_arch)
 
-release="fzf-$version-$type.tar.gz"
-uri="https://github.com/junegunn/fzf/releases/download/$version/$release"
+RELEASE=""https://github.com/junegunn/fzf/releases/download/v$VERSION/fzf-$VERSION-${OS}_${ARCH}.tar.gz""
 
-curl -LO $uri
-mkdir -p "$base_dir/bin" && tar -xzvf "$release" -C "$base_dir/bin"
-rm "$release"
+curl -sSL -o /tmp/fzf.tar.gz "$RELEASE"
+tar -C /tmp -xvzf /tmp/fzf.tar.gz
+mv /tmp/fzf "$(dirname "$(dirname "$0")")/bin/fzf"
+rm /tmp/fzf.tar.gz
+
+logInfo "fzf installed successfully"

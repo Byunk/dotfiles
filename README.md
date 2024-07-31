@@ -1,15 +1,25 @@
 # dotfiles
 
-## Usage
+A personalized collection of dotfiles and scripts to setup a new machine.
+
+## Installation
 
 ```bash
 # Installation
-./scripts/install
+scripts/install
 
 # Bootstrap
-./scripts/bootstrap
+scripts/bootstrap
 ```
-## Reference
 
-- [holman's dotfiles](https://github.com/holman/dotfiles)
+## Versioning
 
+The versioning of the dotfiles for this repository. It is only used for linux distributions. For MacOS, the versioning is done by the `brew` package manager.
+
+| Title  | Version | Document                                                       |
+|--------|---------|----------------------------------------------------------------|
+| Neovim | 0.10.1  | <https://github.com/neovim/neovim/releases/>                   |
+| lf     | r32     | <https://github.com/gokcehan/lf/releases/>                     |
+| gvm    | latest  | <https://github.com/moovweb/gvm?tab=readme-ov-file#installing> |
+| fzf    | 0.54.2  | <https://github.com/junegunn/fzf/releases/>                    |
+| tmux   | 3.3a    | <https://github.com/nelsonenzo/tmux-appimage/releases/>        |

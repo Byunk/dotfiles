@@ -2,11 +2,24 @@
 
 set -euo pipefail
 
-curr_dir=$(dirname "$0")
-base_dir=$(dirname "$curr_dir")
+source "$(dirname "$(dirname "$0")")/scripts/common.sh"
 
-source "$base_dir/scripts/common.sh"
+VERSION="3.3a"
+RELEASE="https://github.com/nelsonenzo/tmux-appimage/releases/download/$VERSION/tmux.appimage"
 
-if [ "$(get_os)" == "Linux" ]; then
-	install_with_linux_package_manager "tmux"
+logInfo "Installing tmux..."
+
+OS=$(getOS)
+if [[ "$OS" != "linux" ]]; then
+	logErrorAndExit "This script is only for Linux"
 fi
+
+if ! hasCommand "fusermount"; then
+	logErrorAndExit "fusermount is required to run Neovim\nhttps://github.com/AppImage/AppImageKit/wiki/FUSE"
+fi
+
+curl -sSL -o /tmp/tmux.appimage "$RELEASE"
+chmod u+x /tmp/tmux.appimage
+mv /tmp/tmux.appimage "$(dirname "$(dirname "$0")")/bin/tmux"
+
+logInfo "tmux installed successfully"
