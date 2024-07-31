@@ -3,3 +3,5 @@ git/gitconfig.local.symlink
 Brewfile.lock.json
 lazy-lock.json
 lazyvim.json
+
+bin/

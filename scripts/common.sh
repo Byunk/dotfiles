@@ -1,52 +1,71 @@
 #!/bin/bash
-# Get OS (Linux, Darwin)
-get_os() {
-	echo "$(uname -s)"
+
+# getArch discovers the architecture for this system.
+getArch() {
+	local ARCH=$(uname -m)
+	case $ARCH in
+	armv5*) ARCH="armv5" ;;
+	armv6*) ARCH="armv6" ;;
+	armv7*) ARCH="arm" ;;
+	aarch64) ARCH="arm64" ;;
+	x86) ARCH="386" ;;
+	x86_64) ARCH="amd64" ;;
+	i686) ARCH="386" ;;
+	i386) ARCH="386" ;;
+	esac
+	echo "$ARCH"
 }
 
-# Get Archtype (x86_64, arm64)
-get_arch() {
-	echo "$(uname -m)"
+# getOS discovers the operating system for this system.
+getOS() {
+	local OS=$(echo $(uname) | tr '[:upper:]' '[:lower:]')
+	case "$OS" in
+	# Minimalist GNU for Windows
+	mingw* | cygwin*) OS='windows' ;;
+	esac
+	echo "$OS"
 }
 
-exist_command() {
-	local executable="$1"
-	command -v "$executable" &>/dev/null 2>&1
+# hasCommand checks if a command exists in the PATH.
+hasCommand() {
+	local command="$1"
+	type "$command" &>/dev/null && echo true || echo false
 }
 
-install_with_linux_package_manager() {
-	local package="$1"
-	exist_command "$package" && return
-
-	if exist_command "apt"; then
-		apt update && apt install "$package" -y
-	elif exist_command "zypper"; then
-		zypper install -y "$package"
+# compareVersion compares two versions.
+# returns 1 if the first version is greater than or equal to the second version
+compareVersion() {
+	local v1="$1"
+	local v2="$2"
+	if [ "$v1" = "$v2" ]; then
+        echo true
+		return
+    fi
+	local isGreater=$(printf '%s\n' "$v1" "$v2" | sort -V -C)
+	if [ "$isGreater" ]; then
+		echo true
 	else
-		echo "ERROR: No available package manager found"
-		exit 1
+		echo false
 	fi
 }
 
-function install.with.linux.package.manager() {
-	"$(uname -s)" != "Linux" && exit.script "Expect Linux but Wrong OS"
-
-	local package=$1
-	exist.command "${package}" && return
-
-	if exist.command "apt"; then
-		apt update && apt install "${package}" -y
-	elif exist.command "zypper"; then
-		zypper install -y "${package}"
-	else
-		exit.script "No available package manager found"
-	fi
+# logInfo logs an info message.
+logInfo() {
+	local message="$1"
+	echo "[INFO]: $message"
 }
 
-function is.linux() {
-	[[ "$(uname -s)" == "Linux" ]]
+# logErrorAndExit logs an error message and exits the script.
+logErrorAndExit() {
+	local message="$1"
+	logError "$message"
+	exit 1
 }
 
-function is.amd() {
-	[[ "$(uname -m)" == "x86_64" ]]
+# logError logs an error message.
+logError() {
+	local message="$1"
+	local RED='\033[0;31m'
+	local NC='\033[0m'
+	echo "${RED}[ERROR]: $message${NC}" >&2
 }

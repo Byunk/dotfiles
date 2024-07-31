@@ -1,19 +1,35 @@
 #!/bin/bash
-# 
-# https://github.com/neovim/neovim/blob/master/INSTALL.md
-# 
-
 set -euo pipefail
 
-curr_dir=$(dirname "$0")
-base_dir=$(dirname "$curr_dir")
+source "$(dirname "$(dirname "$0")")/scripts/common.sh"
 
-source "$base_dir/scripts/common.sh"
+VERSION="v0.10.1"
+RELEASE="https://github.com/neovim/neovim/releases/download/$VERSION/nvim.appimage"
 
-if [[ "$(get_os)" == "Linux" ]]; then
-	if exist_command "apt"; then
-		add-apt-repository ppa:neovim-ppa/unstable
-	fi
+getGlibcVersion() {
+	getconf "GNU_LIBC_VERSION" | awk '{print $NF}'
+}
 
-	exist_command "nvim" || install_with_linux_package_manager "neovim"
+install() {
+	curl -sSL -o /tmp/nvim.appimage "$RELEASE"
+	chmod u+x /tmp/nvim.appimage
+	mv /tmp/nvim.appimage "$(dirname "$(dirname "$0")")/bin/nvim"
+}
+
+logInfo "Installing Neovim..."
+
+OS=$(getOS)
+if [[ "$OS" != "linux" ]]; then
+	logErrorAndExit "This script is only for Linux"
 fi
+
+GNU_LIBC_VERSION=$(getGlibcVersion)
+if ! compareVersion "$GNU_LIBC_VERSION" "2.31"; then
+	logErrorAndExit "Neovim requires glibc version 2.31 or later"
+fi
+if ! hasCommand "fusermount"; then
+	logErrorAndExit "fusermount is required to run Neovim\nhttps://github.com/AppImage/AppImageKit/wiki/FUSE"
+fi
+install
+
+logInfo "Neovim installed successfully"
