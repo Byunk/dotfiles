@@ -1,13 +1,15 @@
 return {
 	{
 		"folke/tokyonight.nvim",
-		lazy = true,
+		lazy = false,
 		priority = 1000,
-		opts = function()
-			return {
-				style = "moon",
-				transparent = true,
-			}
-		end,
-	},
+		opts = {
+			transparent = true,
+			style = "moon",
+			styles = {
+				sidebars = "transparent",
+				floats = "transparent",
+			},
+		},
+	}
 }
