@@ -3,3 +3,6 @@
 -- Add any additional options here
 vim.opt.encoding = "utf-8"
 vim.opt.fileencoding = "utf-8"
+
+local opt = vim.opt
+opt.relativenumber = false
