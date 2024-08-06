@@ -29,4 +29,4 @@ The versioning of the dotfiles for this repository. Some have different versioni
 | Neovim        | 0.10.1  | <https://github.com/neovim/neovim/releases/>                               |
 | nvm           | 0.40.0  | <https://github.com/nvm-sh/nvm?tab=readme-ov-file#installing-and-updating> |
 | tmux          | 3.3a    | <https://github.com/nelsonenzo/tmux-appimage/releases/>                    |
-| yq            | 4.44.3  | <hhttps://github.com/mikefarah/yq/releases/latest>                         |
+| yq            | 4.44.3  | <https://github.com/mikefarah/yq/releases/latest>                          |
