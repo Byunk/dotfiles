@@ -3,13 +3,11 @@
 # Run all dotfiles installers.
 # 
 
-set -euo pipefail
+set -uo pipefail
 
-curr_dir=$(dirname "$0")
+source "$(dirname "$(dirname "$0")")/scripts/common.sh"
 
-source "$curr_dir/common.sh"
-
-if [[ "$(get_os)" == "Darwin" ]]; then
+if [[ "$(getOS)" == "darwin" ]]; then
 	echo "› brew bundle"
 	brew bundle
 

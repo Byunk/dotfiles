@@ -67,5 +67,5 @@ logError() {
 	local message="$1"
 	local RED='\033[0;31m'
 	local NC='\033[0m'
-	echo "${RED}[ERROR]: $message${NC}" >&2
+	echo -e "${RED}[ERROR]: $message${NC}" >&2
 }
