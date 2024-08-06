@@ -20,4 +20,7 @@ mkdir -p "$HOME/.docker/cli-plugins"
 curl -sSL -o "$HOME/.docker/cli-plugins/docker-buildx" "$RELEASE"
 chmod +x "$HOME/.docker/cli-plugins/docker-buildx"
 
+# create a builder instance
+docker buildx create --name multiarch --driver docker-container --use || true
+
 logInfo "docker buildx plugin installed successfully"
