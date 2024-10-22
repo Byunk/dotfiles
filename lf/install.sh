@@ -1,24 +1,25 @@
 #!/bin/bash
 set -euo pipefail
 
-source "$(dirname "$(dirname "$0")")/scripts/common.sh"
+source "$DOTFILES_ROOT/scripts/common.sh"
 
-VERSION="r32"
-
-logInfo "Installing lf..."
-
+PACKAGE="lf"
 OS=$(getOS)
-if [[ "$OS" != "linux" ]]; then
-    logErrorAndExit "This script is only for Linux"
-fi
-
 ARCH=$(getArch)
-
+VERSION=$(getVersion "$PACKAGE")
 RELEASE="https://github.com/gokcehan/lf/releases/download/$VERSION/lf-$OS-$ARCH.tar.gz"
 
-curl -sSL -o /tmp/lf.tar.gz "$RELEASE"
-tar -C /tmp -xvzf /tmp/lf.tar.gz
-mv /tmp/lf "$(dirname "$(dirname "$0")")/bin/lf"
-rm /tmp/lf.tar.gz
+info "Installing $PACKAGE..."
 
-logInfo "lf installed successfully"
+if [[ "$OS" != "linux" ]]; then
+    error "This script is only for Linux"
+fi
+
+ARCHIVE="/tmp/lf.tar.gz"
+
+curl -sSL -o "$ARCHIVE" "$RELEASE"
+tar -C /tmp -xvzf "$ARCHIVE"
+mv /tmp/lf "$DOTFILES_ROOT/bin/lf"
+rm "$ARCHIVE"
+
+success "Installed $PACKAGE $VERSION"

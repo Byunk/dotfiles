@@ -5,15 +5,42 @@
 
 set -uo pipefail
 
-source "$(dirname "$(dirname "$0")")/scripts/common.sh"
+source "$DOTFILES_ROOT/scripts/common.sh"
 
-if [[ "$(getOS)" == "darwin" ]]; then
-	echo "› brew bundle"
-	brew bundle
+extract_package_name() {
+  local installer=$1
+  local package
+  dir_name=$(dirname "${installer}")
+  package=$(basename "${dir_name}")
+  echo "${package}"
+}
 
-	# echo "› ./macos-setting.sh"
-	# source macos-setting.sh
-fi
+install() {
+  if [[ "$(getOS)" == "darwin" ]]; then
+    info "macOS detected"
+    info "Installing dependencies with Homebrew"
+    info "› brew update"
+    brew bundle
 
-# find the installers and run them iteratively
-find . -name install.sh | while read installer ; do sh -c "${installer}" ; done
+    # echo "› ./macos-setting.sh"
+    # source macos-setting.sh
+  else
+    info "Linux detected"
+    info "Installing dependencies from sources"
+    find . -name install.sh | while read installer
+    do
+      package=$(extract_package_name "${installer}")
+
+      if hasCommand "${getCommand "${package}"}"; then
+        info "${package} already installed"
+        continue
+      fi
+
+      source "${installer}"
+    done
+  fi
+
+  success "All installers done!"
+}
+
+install

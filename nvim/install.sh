@@ -1,28 +1,40 @@
 #!/bin/bash
 set -euo pipefail
 
-source "$(dirname "$(dirname "$0")")/scripts/common.sh"
+source "$DOTFILES_ROOT/scripts/common.sh"
 
-VERSION="v0.10.1"
+PACKAGE="neovim"
+OS=$(getOS)
+ARCH=$(getArch)
+VERSION=$(getVersion "$PACKAGE")
 RELEASE="https://github.com/neovim/neovim/releases/download/$VERSION/nvim.appimage"
 
-logInfo "Installing Neovim..."
+info "Installing $PACKAGE..."
 
-OS=$(getOS)
-if [[ "$OS" != "linux" ]]; then
-	logErrorAndExit "This script is only for Linux"
+if [[ "$OS" == "darwin" ]]; then
+	error "This script is not for macOS"
 fi
 
-GNU_LIBC_VERSION=$(getconf "GNU_LIBC_VERSION" | awk '{print $NF}')
-if ! compareVersion "$GNU_LIBC_VERSION" "2.31"; then
-	logErrorAndExit "Neovim requires glibc version 2.31 or later"
-fi
-if ! hasCommand "fusermount"; then
-	logErrorAndExit "fusermount is required to run Neovim\nhttps://github.com/AppImage/AppImageKit/wiki/FUSE"
-fi
+check_glibc_version() {
+    local required_version="2.31"
+    local current_version=$(getconf "GNU_LIBC_VERSION" | awk '{print $NF}')
+    if ! compareVersion "$current_version" "$required_version"; then
+        error "Neovim requires glibc version $required_version or later"
+    fi
+}
 
-curl -sSL -o /tmp/nvim.appimage "$RELEASE"
-chmod u+x /tmp/nvim.appimage
-mv /tmp/nvim.appimage "$(dirname "$(dirname "$0")")/bin/nvim"
+check_fusermount() {
+	if ! hasCommand "fusermount"; then
+		error "fusermount is required to run Neovim\nhttps://github.com/AppImage/AppImageKit/wiki/FUSE"
+	fi
+}
 
-logInfo "Neovim installed successfully"
+check_glibc_version
+check_fusermount
+
+AppImage="/tmp/nvim.appimage"
+curl -sSL -o "$AppImage" "$RELEASE"
+chmod u+x "$AppImage"
+mv "$AppImage" "$DOTFILES_ROOT/bin/nvim"
+
+success "Installed $PACKAGE $VERSION"

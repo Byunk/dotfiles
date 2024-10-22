@@ -2,24 +2,28 @@
 
 set -euo pipefail
 
-source "$(dirname "$(dirname "$0")")/scripts/common.sh"
+source "$DOTFILES_ROOT/scripts/common.sh"
 
-VERSION="3.3a"
+PACKAGE="tmux"
+OS=$(getOS)
+ARCH=$(getArch)
+VERSION=$(getVersion "$PACKAGE")
 RELEASE="https://github.com/nelsonenzo/tmux-appimage/releases/download/$VERSION/tmux.appimage"
 
-logInfo "Installing tmux..."
+info "Installing $PACKAGE..."
 
-OS=$(getOS)
-if [[ "$OS" != "linux" ]]; then
-	logErrorAndExit "This script is only for Linux"
+if [[ "$OS" == "darwin" ]]; then
+	error "This script is not for macOS"
 fi
 
 if ! hasCommand "fusermount"; then
-	logErrorAndExit "fusermount is required to run Neovim\nhttps://github.com/AppImage/AppImageKit/wiki/FUSE"
+	error "fusermount is required to run $PACKAGE\nhttps://github.com/AppImage/AppImageKit/wiki/FUSE"
 fi
 
-curl -sSL -o /tmp/tmux.appimage "$RELEASE"
-chmod u+x /tmp/tmux.appimage
-mv /tmp/tmux.appimage "$(dirname "$(dirname "$0")")/bin/tmux"
+AppImage="/tmp/tmux.appimage"
 
-logInfo "tmux installed successfully"
+curl -sSL -o "$AppImage" "$RELEASE"
+chmod u+x "$AppImage"
+mv "$AppImage" "$DOTFILES_ROOT/bin/tmux"
+
+success "Installed $PACKAGE $VERSION"

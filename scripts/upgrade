@@ -1,0 +1,28 @@
+#!/bin/bash
+#
+# Upgrade all dotfiles installers.
+# 
+
+set -uo pipefail
+
+source "$DOTFILES_ROOT/scripts/common.sh"
+
+upgrade() {
+  if [[ "$(getOS)" == "darwin" ]]; then
+    info "macOS detected"
+    info "Updating dependencies with Homebrew"
+    info "› brew update && brew upgrade"
+    brew update && brew upgrade
+  else
+    info "Linux detected"
+    info "Updating dependencies from sources"
+    find . -name install.sh | while read installer
+    do
+      source "${installer}"
+    done
+  fi
+
+  success "All upgraders done!"
+}
+
+upgrade

@@ -1,15 +1,22 @@
 #!/bin/bash
 set -euo pipefail
 
-source "$(dirname "$(dirname "$0")")/scripts/common.sh"
+source "$DOTFILES_ROOT/scripts/common.sh"
 
-logInfo "Installing helm..."
+PACKAGE="helm"
+OS=$(getOS)
+ARCH=$(getArch)
+VERSION=$(getVersion "$PACKAGE")
+RELEASE="https://get.helm.sh/helm-$VERSION-$OS-$ARCH.tar.gz"
 
-RELEASE="https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3"
+info "Installing $PACKAGE..."
 
-curl -fsSL -o /tmp/get_helm.sh "$RELEASE"
-chmod 700 /tmp/get_helm.sh
-/tmp/get_helm.sh
-rm /tmp/get_helm.sh
+ARCHIVE="/tmp/helm.tar.gz"
 
-logInfo "helm installed successfully"
+curl -fsSL -o "$ARCHIVE" "$RELEASE"
+tar -C /tmp -xvzf "$ARCHIVE"
+mv "/tmp/$OS-$ARCH/helm" "$DOTFILES_ROOT/bin/helm"
+rm "$ARCHIVE"
+rm -rf "/tmp/$OS-$ARCH"
+
+success "Installed $PACKAGE $VERSION"

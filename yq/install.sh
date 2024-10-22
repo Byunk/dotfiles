@@ -1,21 +1,21 @@
 #!/bin/bash
 set -euo pipefail
 
-source "$(dirname "$(dirname "$0")")/scripts/common.sh"
+source "$DOTFILES_ROOT/scripts/common.sh"
 
-VERSION="v4.44.3"
-
-logInfo "Installing yq ..."
-
+PACKAGE="yq"
 OS=$(getOS)
 ARCH=$(getArch)
+VERSION=$(getVersion "$PACKAGE")
+RELEASE="https://github.com/mikefarah/yq/releases/download/${VERSION}/yq_${OS}_${ARCH}.tar.gz"
 
-BINARY="yq_${OS}_${ARCH}"
-RELEASE="https://github.com/mikefarah/yq/releases/download/${VERSION}/$BINARY.tar.gz"
+info "Installing $PACKAGE..."
 
-curl -sSL -o /tmp/yq.tar.gz "$RELEASE"
-tar -C /tmp -xvzf /tmp/yq.tar.gz
-mv "/tmp/$BINARY" "$(dirname "$(dirname "$0")")/bin/yq"
-rm /tmp/yq.tar.gz
+ARCHIVE="/tmp/yq.tar.gz"
 
-logInfo "yq installed successfully"
+curl -sSL -o "$ARCHIVE" "$RELEASE"
+tar -C /tmp -xvzf "$ARCHIVE"
+mv "/tmp/yq_${OS}_${ARCH}" "$DOTFILES_ROOT/bin/yq"
+rm "$ARCHIVE"
+
+success "Installed $PACKAGE $VERSION"

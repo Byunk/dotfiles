@@ -3,4 +3,4 @@ grep -o 'releases/[0-9]*.[0-9]*.[0-9]*/' | sort -V | \
 tail -1 | awk -F'/' '{ print $2}')"
 ISTIO_VERSION="${ISTIO_VERSION##*/}"
 
-export PATH=$PATH:$(dirname "$(dirname "$0")")/bin/istio-$ISTIO_VERSION/bin
+export PATH=$PATH:$DOTFILES_ROOT/bin/istio-$ISTIO_VERSION/bin

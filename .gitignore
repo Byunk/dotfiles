@@ -1,3 +1,6 @@
-git/gitconfig.local.symlink
-
+# Directories
 bin/
+__pycache__/
+
+# Private
+git/gitconfig.local.symlink

@@ -1,18 +1,20 @@
 #!/bin/bash
 set -euo pipefail
 
-source "$(dirname "$(dirname "$0")")/scripts/common.sh"
+source "$DOTFILES_ROOT/scripts/common.sh"
 
-VERSION="v0.23.0"
-
-logInfo "Installing kind..."
-
+PACKAGE="kind"
 OS=$(getOS)
 ARCH=$(getArch)
-RELEASE="https://kind.sigs.k8s.io/dl/v0.23.0/kind-$OS-$ARCH"
+VERSION=$(getVersion "$PACKAGE")
+RELEASE="https://kind.sigs.k8s.io/dl/v$VERSION/kind-$OS-$ARCH"
 
-curl -sSL -o /tmp/kind "$RELEASE"
-chmod +x /tmp/kind
-mv /tmp/kind "$(dirname "$(dirname "$0")")/bin/kind"
+info "Installing $PACKAGE..."
 
-logInfo "kind installed successfully"
+TEMP_KIND_BINARY="/tmp/kind"
+
+curl -sSL -o "$TEMP_KIND_BINARY" "$RELEASE"
+chmod +x "$TEMP_KIND_BINARY"
+mv "$TEMP_KIND_BINARY" "$DOTFILES_ROOT/bin/kind"
+
+success "Installed $PACKAGE $VERSION"

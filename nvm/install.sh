@@ -1,12 +1,12 @@
 #!/bin/bash
 set -euo pipefail
 
-source "$(dirname "$(dirname "$0")")/scripts/common.sh"
+source "$DOTFILES_ROOT/scripts/common.sh"
 
 VERSION="v0.40.0"
 
-logInfo "Installing nvm..."
+info "Installing nvm..."
 
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/$VERSION/install.sh | bash
 
-logInfo "nvm installed successfully"
+info "nvm installed successfully"

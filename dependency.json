@@ -1,0 +1,68 @@
+[
+  {
+    "name": "docker buildx plugin",
+    "command": "docker buildx",
+    "version": "v0.16.2",
+    "url": "https://github.com/docker/buildx"
+  },
+  {
+    "name": "fzf",
+    "command": "fzf",
+    "version": "0.54.2",
+    "url": "https://github.com/junegunn/fzf"
+  },
+  {
+    "name": "gvm",
+    "command": "gvm",
+    "version": "",
+    "url": "https://github.com/moovweb/gvm"
+  },
+  {
+    "name": "helm",
+    "command": "helm",
+    "version": "v3.16.2",
+    "url": "https://helm.sh/docs/intro/install/"
+  },
+  {
+    "name": "kind",
+    "command": "kind",
+    "version": "v0.24.0",
+    "url": "https://kind.sigs.k8s.io/docs/user/quick-start/#installation"
+  },
+  {
+    "name": "kubectl",
+    "command": "kubectl",
+    "version": "v1.31.1",
+    "url": "https://kubernetes.io/docs/tasks/tools/"
+  },
+  {
+    "name": "lf",
+    "command": "lf",
+    "version": "r32",
+    "url": "https://github.com/gokcehan/lf"
+  },
+  {
+    "name": "neovim",
+    "command": "nvim",
+    "version": "v0.10.1",
+    "url": "https://github.com/neovim/neovim"
+  },
+  {
+    "name": "pyenv",
+    "command": "pyenv",
+    "version": "",
+    "url": "https://github.com/pyenv/pyenv"
+  },
+  {
+    "name": "tmux",
+    "command": "tmux",
+    "version": "3.5a",
+    "url": "https://github.com/tmux/tmux"
+  },
+  {
+    "name": "yq",
+    "command": "yq",
+    "version": "v4.44.3",
+    "url": "https://github.com/mikefarah/yq"
+  }
+]

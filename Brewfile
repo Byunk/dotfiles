@@ -1,11 +1,9 @@
 tap "homebrew/bundle"
 tap "homebrew/cask-fonts"
 
-brew "git"
 brew "lf"
 brew "fzf"
 brew "neovim"
-brew "pyenv"
 brew "tmux"
 brew "reattach-to-user-namespace"
 brew "tree"

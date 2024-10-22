@@ -1,10 +1,12 @@
 #!/bin/bash
 set -euo pipefail
 
-source "$(dirname "$(dirname "$0")")/scripts/common.sh"
+source "$DOTFILES_ROOT/scripts/common.sh"
 
-logInfo "Installing pyenv..."
+PACKAGE="pyenv"
+
+info "Installing $PACKAGE..."
 
 curl https://pyenv.run | bash
 
-logInfo "pyenv installed successfully"
+success "Installed $PACKAGE"
