@@ -64,5 +64,11 @@
     "command": "yq",
     "version": "v4.44.3",
     "url": "https://github.com/mikefarah/yq"
+  },
+  {
+    "name": "shell-gpt",
+    "command": "sgpt --version",
+    "version": "",
+    "url": "https://github.com/TheR1D/shell_gpt"
   }
 ]

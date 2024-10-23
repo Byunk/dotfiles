@@ -3,6 +3,10 @@ set -euo pipefail
 
 source "$DOTFILES_ROOT/scripts/common.sh"
 
+if ! hasCommand "sgpt"; then
+  error "sgpt is not installed."
+fi
+
 if [ ! -d "$HOME/.config/shell_gpt" ]; then
   error "$HOME/.config/shell_gpt does not exist."
 fi
@@ -11,7 +15,11 @@ substitute() {
   local key="$1"
   local new_value="$2"
 
-  sed -i '' "s|^\($key=\).*|\1$new_value|" "$HOME/.config/shell_gpt/.sgptrc"
+  if [[ "$(getOS)" == "darwin" ]]; then
+    sed -i '' "s|^\($key=\).*|\1$new_value|" "$HOME/.config/shell_gpt/.sgptrc"
+  else
+    sed -i "s|^\($key=\).*|\1$new_value|" "$HOME/.config/shell_gpt/.sgptrc"
+  fi
 }
 
 DEFAULT_MODEL="gpt-4o-mini"
