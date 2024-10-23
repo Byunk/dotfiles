@@ -13,11 +13,11 @@ RELEASE="https://github.com/nelsonenzo/tmux-appimage/releases/download/$VERSION/
 info "Installing $PACKAGE..."
 
 if [[ "$OS" == "darwin" ]]; then
-	error "This script is not for macOS"
+  error "This script is not for macOS"
 fi
 
-if ! hasCommand "fusermount"; then
-	error "fusermount is required to run $PACKAGE\nhttps://github.com/AppImage/AppImageKit/wiki/FUSE"
+if ! hasCommand "fusermount --version"; then
+  error "fusermount is required to run $PACKAGE\nhttps://github.com/AppImage/AppImageKit/wiki/FUSE"
 fi
 
 AppImage="/tmp/tmux.appimage"

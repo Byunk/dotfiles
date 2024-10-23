@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # Run all dotfiles installers.
-# 
+#
 
 set -uo pipefail
 
@@ -27,11 +27,11 @@ install() {
   else
     info "Linux detected"
     info "Installing dependencies from sources"
-    find . -name install.sh | while read installer
-    do
+    find . -name install.sh | while read installer; do
       package=$(extract_package_name "${installer}")
+      command=$(getCommand "${package}")
 
-      if hasCommand "${getCommand "${package}"}"; then
+      if hasCommand "${command}"; then
         info "${package} already installed"
         continue
       fi

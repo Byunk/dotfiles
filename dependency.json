@@ -7,7 +7,7 @@
   },
   {
     "name": "fzf",
-    "command": "fzf",
+    "command": "fzf --version",
     "version": "0.54.2",
     "url": "https://github.com/junegunn/fzf"
   },
@@ -37,7 +37,7 @@
   },
   {
     "name": "lf",
-    "command": "lf",
+    "command": "lf --version",
     "version": "r32",
     "url": "https://github.com/gokcehan/lf"
   },
@@ -56,7 +56,7 @@
   {
     "name": "tmux",
     "command": "tmux",
-    "version": "3.5a",
+    "version": "3.3a",
     "url": "https://github.com/tmux/tmux"
   },
   {
