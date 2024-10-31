@@ -1,0 +1,147 @@
+#!/bin/bash
+set -euo pipefail
+
+SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
+
+INSTLOG="$SCRIPT_DIR/install.log"
+INSTALL_ALL="${INSTALL_ALL:-false}"
+
+### Util Functions
+
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+NC='\033[0m'
+
+info() {
+  local message="$1"
+  printf "\r  [ INFO ] %s\n" "${message}"
+}
+
+success() {
+  local message="$1"
+  printf "\r  [ ${GREEN}OK${NC} ] %s\n" "${message}"
+}
+
+warn() {
+  local message="$1"
+  printf "\r  [ ${YELLOW}WARN${NC} ] %s\n" "${message}"
+}
+
+user() {
+  local message="$1"
+  printf "\r  [ ${YELLOW}??${NC} ] %s " "${message}"
+}
+
+error() {
+  local message="$1"
+  printf "\r  [ ${RED}ERROR${NC} ] %s\n" "${message}"
+  exit
+}
+
+hasCommand() {
+  command -v "$1" &>/dev/null
+}
+
+### Install Packages ###
+prerequisites=(
+  tar
+  gzip
+)
+
+if ! $INSTALL_ALL; then
+  user "Do you want to install the packages? [y/n]: "
+  read -re INST
+fi
+
+if [[ $INSTALL_ALL == true || $INST == "y" || $INST == "Y" ]]; then
+  info "Installing needed packages"
+
+  # Prerequisites
+  for pre in "${prerequisites[@]}"; do
+    if ! hasCommand "$pre"; then
+      error "$pre is not installed"
+    fi
+  done
+
+  # Install all packages
+  for installer in "$SCRIPT_DIR"/installers/*; do
+    filename=$(basename "$installer")
+
+    if [[ "$filename" == "common.sh" ]]; then
+      continue
+    fi
+
+    package="${filename%.sh}"
+
+    unset INSTP
+    user "Do you want to install $package? [y/n]: "
+    read -re INSTP
+
+    if [[ $INSTALL_ALL == true || $INSTP == "y" || $INSTP == "Y" ]]; then
+      info "Installing $package"
+
+      if ! sh -c "$installer"; then
+        warn "Failed to install $package"
+      fi
+    fi
+  done
+fi
+
+### Copy Config Files ###
+# Inspired by https://github.com/arnavgr/dotfiles/blob/master/install
+
+user "Do you want to copy the config files? [y/n]: "
+read -re CFG
+if [[ $CFG == "y" || $CFG == "Y" ]]; then
+  info "Setting up config files..."
+  source_dir="$(pwd)/config"
+  destination_dir="$HOME/.config"
+  backup_dir="$HOME/.config/backup"
+
+  mkdir -p "$destination_dir" "$backup_dir"
+
+  # Move existing directories to backup
+  move_to_backup() {
+    if [ -d "$destination_dir/$1" ] && [ -d "$source_dir/$1" ]; then
+      mv "$destination_dir/$1" "$backup_dir/" || warn "Failed to move $1 directory to $backup_dir"
+      info "Existing $1 directory moved to $backup_dir"
+    fi
+  }
+
+  # link up config files
+  for directory in "$source_dir"/*; do
+    if [ -d "$directory" ]; then
+      dirname=$(basename "$directory")
+      move_to_backup "$dirname"
+      ln -sf "$directory" "$destination_dir/$dirname" >>$INSTLOG 2>&1
+    fi
+  done
+
+  # Local Git Config
+  info "Setting up local gitconfig"
+
+  if ! [[ -f "$PWD/gitconfig.local" ]]; then
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+      git_credential='osxkeychain'
+    else
+      git_credential='cache'
+    fi
+
+    user "Enter your git username: "
+    read -re GIT_USER
+    user "Enter your git email: "
+    read -re GIT_EMAIL
+
+    sed -e "s/AUTHORNAME/$GIT_USER/g" -e "s/AUTHOREMAIL/$GIT_EMAIL/g" -e "s/GIT_CREDENTIAL_HELPER/$git_credential/g" "$PWD/gitconfig.local.example" >"$PWD/gitconfig.local"
+  fi
+
+  # link other files
+  ln -sf "$PWD/zshenv" "$HOME/.zshenv"
+  ln -sf "$PWD/gitconfig" "$HOME/.gitconfig"
+  ln -sf "$PWD/gitconfig.local" "$HOME/.gitconfig.local"
+  ln -sf "$PWD/gitignore" "$HOME/.gitignore"
+  ln -sf "$PWD/vimrc" "$HOME/.vimrc"
+fi
+
+success "Installation has been completed!"

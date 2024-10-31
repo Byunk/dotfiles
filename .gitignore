@@ -1,0 +1,13 @@
+# Directories
+__pycache__/
+
+# Private
+gitconfig.local
+
+# zsh
+config/zsh/.zsh_history
+config/zsh/.zcompdump
+config/zsh/.zsh_plugins.zsh
+
+# Logs
+*.log
