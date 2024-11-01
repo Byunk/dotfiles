@@ -105,6 +105,8 @@ if [[ $CFG == "y" || $CFG == "Y" ]]; then
   move_to_backup() {
     if [ -d "$destination_dir/$1" ] && [ -d "$source_dir/$1" ]; then
       mv "$destination_dir/$1" "$backup_dir/" || warn "Failed to move $1 directory to $backup_dir"
+      # Ensure the directory was moved
+      rm -rf "$destination_dir/$1"
       info "Existing $1 directory moved to $backup_dir"
     fi
   }
@@ -134,6 +136,35 @@ if [[ $CFG == "y" || $CFG == "Y" ]]; then
     read -re GIT_EMAIL
 
     sed -e "s/AUTHORNAME/$GIT_USER/g" -e "s/AUTHOREMAIL/$GIT_EMAIL/g" -e "s/GIT_CREDENTIAL_HELPER/$git_credential/g" "$PWD/gitconfig.local.example" >"$PWD/gitconfig.local"
+  fi
+
+  # shell-gpt Config
+  if hasCommand sgpt; then
+    info "Setting up shell-gpt config"
+
+    if ! [[ -f "$HOME/.config/shell_gpt/.sgptrc" ]]; then
+      user "Enter openAI API key: "
+      read -re OPENAI_API_KEY
+      # Execute sgpt to ensure config files are generated
+      OPENAI_API_KEY=$OPENAI_API_KEY sgpt >/dev/null 2>&1
+      echo "OPENAI_API_KEY=$OPENAI_API_KEY" >>"$HOME/.config/shell_gpt/.sgptrc"
+    fi
+
+    substitute() {
+      local key="$1"
+      local new_value="$2"
+      if [[ "$OSTYPE" == "darwin"* ]]; then
+        sed -i '' "s|^\($key=\).*|\1$new_value|" "$HOME/.config/shell_gpt/.sgptrc"
+      else
+        sed -i "s|^\($key=\).*|\1$new_value|" "$HOME/.config/shell_gpt/.sgptrc"
+      fi
+    }
+
+    substitute "DEFAULT_MODEL" "gpt-4o-mini"
+    substitute "ROLE_STORAGE_PATH" "$PWD/config/shell_gpt/roles"
+    substitute "OPENAI_FUNCTIONS_PATH" "$PWD/config/shell_gpt/functions"
+
+    success "shell-gpt config has been set up"
   fi
 
   # link other files

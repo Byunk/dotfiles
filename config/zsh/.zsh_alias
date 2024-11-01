@@ -19,7 +19,7 @@ alias l='ls -A -l -h --color=auto'
 alias cl='clear'
 alias rf='rm -rf'
 alias config='cd ~/.config'
-alias autogit='git diff --staged | sgpt --role commit_generator - | git commit -F -'
+alias autogit='git diff --staged | sgpt --role "Commit Message Generator" - | git commit -F -'
 
 # nvim
 alias vi='nvim'
