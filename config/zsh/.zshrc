@@ -25,9 +25,15 @@ setopt HIST_IGNORE_DUPS
 setopt HIST_SAVE_NO_DUPS
 setopt HIST_FIND_NO_DUPS
 
+## Key Bindings
+
 # Enable history substring search
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
+
+# Option + Arrow key to move cursor
+bindkey '^[f' forward-word
+bindkey '^[b' backward-word
 
 ## OS Specific Configurations
 if [[ "$OSTYPE" == "darwin"* ]]; then
