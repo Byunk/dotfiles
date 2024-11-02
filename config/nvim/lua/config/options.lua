@@ -7,3 +7,4 @@ local opt = vim.opt
 opt.encoding = "utf-8"
 opt.fileencoding = "utf-8"
 opt.relativenumber = false
+opt.conceallevel = 0
