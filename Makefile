@@ -7,12 +7,10 @@ help: ## Show this help
 	@echo "Targets:"
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "  %-20s %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
-install: ./install.sh ## Install dependencies
+install: scripts/install ## Install dependencies
 	@$<
 
 check-scripts: ## Run shellcheck on all scripts
 	@shellcheck -x -s bash **/*.sh
+	@shellcheck -x -s bash scripts/*
 
-test-opensuse: ## Run tests on openSUSE
-	@docker build -t test-openSUSE -f Dockerfile.opensuse .
-	@docker run --rm test-openSUSE

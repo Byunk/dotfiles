@@ -19,7 +19,7 @@ if checkcmd "$PACKAGE" && [ "$UPGRADE" = false ]; then
 fi
 
 RELEASE_URL="https://dl.k8s.io/release/$VERSION/bin/$OS/$ARCH/kubectl"
-TMP_BIN="/tmp/$PAKAGE"
+TMP_BIN="/tmp/$PACKAGE"
 
 info "Downloading $PACKAGE from $RELEASE_URL"
 if ! curl -sSL -o "$ARCHIVE" "$RELEASE_URL"; then

@@ -2,8 +2,9 @@
 set -euo pipefail
 
 SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
+ROOT_DIR=$(cd "$SCRIPT_DIR/.." && pwd)
 
-INSTLOG="$SCRIPT_DIR/install.log"
+INSTLOG="$ROOT_DIR/install.log"
 INSTALL_ALL="${INSTALL_ALL:-false}"
 
 ### Util Functions
@@ -65,7 +66,7 @@ if [[ $INSTALL_ALL == true || $INST == "y" || $INST == "Y" ]]; then
   done
 
   # Install all packages
-  for installer in "$SCRIPT_DIR"/installers/*; do
+  for installer in "$ROOT_DIR"/installers/*; do
     filename=$(basename "$installer")
 
     if [[ "$filename" == "common.sh" ]]; then
