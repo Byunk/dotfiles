@@ -1,9 +1,10 @@
 # dotfiles
 
-A collection of dotfiles by Byunk.
+Makes setting up a new machine a breeze.
 
 ## Usage
 
 ```bash
-./install
+make install
 ```
+
