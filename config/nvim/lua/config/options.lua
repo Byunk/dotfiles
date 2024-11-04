@@ -8,3 +8,9 @@ opt.encoding = "utf-8"
 opt.fileencoding = "utf-8"
 opt.relativenumber = false
 opt.conceallevel = 0
+
+-- Custom filetype detection for .env files
+vim.api.nvim_create_autocmd({ "BufEnter", "BufNewFile" }, {
+	pattern = ".env*",
+	command = "set filetype=conf",
+})
