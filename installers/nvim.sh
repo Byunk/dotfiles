@@ -6,7 +6,7 @@ source "$SCRIPT_DIR/common.sh"
 
 UPGRADE="${UPGRADE:-false}"
 
-PACKAGE="neovim"
+PACKAGE="nvim"
 OS=$(getos)
 VERSION="$(get_latest_release neovim/neovim)"
 
