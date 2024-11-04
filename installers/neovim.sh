@@ -43,8 +43,7 @@ else
 
   TARGET_DIR="$HOME/.local/bin"
   mkdir -p "$TARGET_DIR"
-  mv "/tmp/$PACKAGE" "$TARGET_DIR/$PACKAGE"
-  rm -f "$APPIMAGE"
+  mv "$APPIMAGE" "$TARGET_DIR/$PACKAGE"
 fi
 
 success "Successfully installed $PACKAGE $VERSION"
