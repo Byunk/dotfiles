@@ -139,6 +139,17 @@ if [[ $CFG == "y" || $CFG == "Y" ]]; then
     sed -e "s/AUTHORNAME/$GIT_USER/g" -e "s/AUTHOREMAIL/$GIT_EMAIL/g" -e "s/GIT_CREDENTIAL_HELPER/$git_credential/g" "$PWD/gitconfig.local.example" >"$PWD/gitconfig.local"
   fi
 
+  # netrc
+  info "Setting up netrc"
+
+  if ! [[ -f "$HOME/.netrc" ]]; then
+    user "Enter your github username: "
+    read -re GITHUB_USER
+    user "Enter your github token: "
+    read -re GITHUB_TOKEN
+    sed -e "s/USERNAME/$GITHUB_USER/g" -e "s/PASSWORD/$GITHUB_TOKEN/g" "$PWD/netrc" >"$HOME/.netrc"
+  fi
+
   # shell-gpt Config
   if hasCommand sgpt; then
     info "Setting up shell-gpt config"
