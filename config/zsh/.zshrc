@@ -12,7 +12,7 @@ mkdir -p "$XDG_CACHE_HOME/zsh"
 mkdir -p "$XDG_DATA_HOME/zsh"
 
 ## History
-HISTFILE="$ZDOTDIR/zsh/.zsh_history"
+HISTFILE="$ZDOTDIR/.zsh_history"
 HISTSIZE=100000
 SAVEHIST=100000
 setopt APPEND_HISTORY
@@ -66,6 +66,7 @@ if hasCommand kubectl; then
 fi
 
 # fzf
+export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix --hidden --follow --exclude .git --exclude .venv'
 export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
 if hasCommand fzf; then
   source <(fzf --zsh)
