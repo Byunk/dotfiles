@@ -10,6 +10,9 @@ help: ## Show this help
 install: scripts/install ## Install dependencies
 	@$<
 
+install-brew: ## Install by Homebrew
+	@brew bundle
+
 check-scripts: ## Run shellcheck on all scripts
 	@shellcheck -x -s bash **/*.sh
 	@shellcheck -x -s bash scripts/*
