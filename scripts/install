@@ -107,7 +107,7 @@ if [[ $CFG == "y" || $CFG == "Y" ]]; then
     if [ -d "$destination_dir/$1" ] && [ -d "$source_dir/$1" ]; then
       mv "$destination_dir/$1" "$backup_dir/" || warn "Failed to move $1 directory to $backup_dir"
       # Ensure the directory was moved
-      rm -rf "$destination_dir/$1"
+      rm -rf "${destination_dir:?}/$1"
       info "Existing $1 directory moved to $backup_dir"
     fi
   }
@@ -117,7 +117,7 @@ if [[ $CFG == "y" || $CFG == "Y" ]]; then
     if [ -d "$directory" ]; then
       dirname=$(basename "$directory")
       move_to_backup "$dirname"
-      ln -sf "$directory" "$destination_dir/$dirname" >>$INSTLOG 2>&1
+      ln -sf "$directory" "$destination_dir/$dirname" >>"$INSTLOG" 2>&1
     fi
   done
 
