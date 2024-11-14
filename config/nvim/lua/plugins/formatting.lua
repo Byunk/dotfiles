@@ -10,6 +10,11 @@ return {
 					go = { "goimports", "gofmt" },
 					python = { "isort", "black" },
 				},
+				formatters = {
+					black = {
+						prepend_args = { "--fast" },
+					},
+				},
 			}
 			return opts
 		end,
