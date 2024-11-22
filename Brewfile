@@ -14,4 +14,5 @@ cask "obsidian"
 cask "rectangle"
 
 mas "Amphetamine", id: 937984704
+mas "MonitorControl Lite", id: 1595464182
 mas "Yoink", id: 457622435
