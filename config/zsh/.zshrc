@@ -44,6 +44,9 @@ fi
 mkdir -p "$HOME/.local/bin"
 export PATH="$HOME/.local/bin:$PATH"
 
+# Add ~/go/bin
+export PATH="$HOME/go/bin:$PATH"
+
 ## Completion
 FUNC_DIR="$XDG_DATA_HOME/zsh/site-functions"
 mkdir -p "$FUNC_DIR"
