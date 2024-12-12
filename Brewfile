@@ -1,5 +1,6 @@
 tap "homebrew/bundle"
 
+brew "jupyterlab"
 brew "mas"
 brew "tree"
 
