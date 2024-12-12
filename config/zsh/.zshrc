@@ -47,6 +47,12 @@ export PATH="$HOME/.local/bin:$PATH"
 # Add ~/go/bin
 export PATH="$HOME/go/bin:$PATH"
 
+# Java
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
+  export CPPFLAGS="-I/opt/homebrew/opt/openjdk/include"
+fi
+
 ## Completion
 FUNC_DIR="$XDG_DATA_HOME/zsh/site-functions"
 mkdir -p "$FUNC_DIR"
