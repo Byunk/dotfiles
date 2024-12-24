@@ -1,0 +1,5 @@
+name: kubectl 
+version: "v1.32.0"
+type: binary
+url: "https://dl.k8s.io/release/$VERSION/bin/$OS/$ARCH/kubectl"
+versionCmd: "kubectl version --client"

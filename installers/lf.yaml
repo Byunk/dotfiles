@@ -1,0 +1,5 @@
+name: lf 
+version: r33
+type: source
+url: "https://github.com/gokcehan/lf/releases/download/$VERSION/lf-$OS-$ARCH.tar.gz"
+versionCmd: "lf -version"
