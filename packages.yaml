@@ -1,0 +1,45 @@
+- name: fd 
+  type: package
+  versionCmd: "fd --version"
+- name: fzf 
+  version: "0.57.0"
+  type: source
+  url: "https://github.com/junegunn/fzf/releases/download/v$VERSION/fzf-$VERSION-$OS_$ARCH.tar.gz"
+  versionCmd: "fzf --version"
+- name: helm 
+  version: v3.16.4
+  type: source
+  url: "https://get.helm.sh/helm-$VERSION-$OS-$ARCH.tar.gz"
+  versionCmd: "helm version"
+- name: kind
+  version: "v0.11.1"
+  type: binary
+  url: "https://kind.sigs.k8s.io/dl/$VERSION/kind-$OS-$ARCH"
+  versionCmd: "kind --version"
+- name: kubectl 
+  version: "v1.32.0"
+  type: binary
+  url: "https://dl.k8s.io/release/$VERSION/bin/$OS/$ARCH/kubectl"
+  versionCmd: "kubectl version --client"
+- name: lf 
+  version: r33
+  type: source
+  url: "https://github.com/gokcehan/lf/releases/download/$VERSION/lf-$OS-$ARCH.tar.gz"
+  versionCmd: "lf -version"
+- name: shell-gpt 
+  type: pip
+  versionCmd: "sgpt --version"
+- name: shellcheck 
+  version: v0.10.0
+  type: source
+  url: "https://github.com/koalaman/shellcheck/releases/download/$VERSION/shellcheck-$VERSION.$OS.$ARCH.tar.xz"
+  versionCmd: "shellcheck --version"
+- name: thefuck 
+  type: package
+  versionCmd: "thefuck --version"
+- name: zellij 
+  type: package
+  versionCmd: "zellij --version"
+- name: zsh
+  type: package
+  versionCmd: "zsh --version"
