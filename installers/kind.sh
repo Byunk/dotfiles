@@ -18,7 +18,7 @@ if checkcmd "$PACKAGE" && [ "$UPGRADE" = false ]; then
   exit 0
 fi
 
-RELEASE_URL="https://kind.sigs.k8s.io/dl/v$VERSION/kind-$OS-$ARCH"
+RELEASE_URL="https://kind.sigs.k8s.io/dl/$VERSION/kind-$OS-$ARCH"
 TMP_BIN="/tmp/$PACKAGE"
 
 info "Downloading $PACKAGE from $RELEASE_URL"
