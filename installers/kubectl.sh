@@ -22,7 +22,7 @@ RELEASE_URL="https://dl.k8s.io/release/$VERSION/bin/$OS/$ARCH/kubectl"
 TMP_BIN="/tmp/$PACKAGE"
 
 info "Downloading $PACKAGE from $RELEASE_URL"
-if ! curl -sSL -o "$ARCHIVE" "$RELEASE_URL"; then
+if ! curl -sSL -o "$TMP_BIN" "$RELEASE_URL"; then
   error "Failed to download $PACKAGE"
 fi
 

@@ -22,7 +22,7 @@ RELEASE_URL="https://kind.sigs.k8s.io/dl/v$VERSION/kind-$OS-$ARCH"
 TMP_BIN="/tmp/$PACKAGE"
 
 info "Downloading $PACKAGE from $RELEASE_URL"
-if ! curl -sSL -o "$ARCHIVE" "$RELEASE_URL"; then
+if ! curl -sSL -o "$TMP_BIN" "$RELEASE_URL"; then
   error "Failed to download $PACKAGE"
 fi
 
