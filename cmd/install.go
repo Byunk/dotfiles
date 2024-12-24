@@ -75,7 +75,7 @@ This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Args: cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		if err := run(cmd, args); err != nil {
+		if err := runInstall(cmd, args); err != nil {
 			fmt.Println(err)
 			return
 		}
@@ -83,7 +83,7 @@ to quickly create a Cobra application.`,
 }
 
 func init() {
-	RootCmd.AddCommand(installCmd)
+	rootCmd.AddCommand(installCmd)
 
 	// Here you will define your flags and configuration settings.
 
@@ -96,7 +96,7 @@ func init() {
 	// installCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
 
-func run(cmd *cobra.Command, args []string) error {
+func runInstall(cmd *cobra.Command, args []string) error {
 	name := args[0]
 	o, err := NewFromConfig(name)
 	if err != nil {
