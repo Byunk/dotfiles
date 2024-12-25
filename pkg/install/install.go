@@ -7,28 +7,33 @@ import (
 	"os/exec"
 	"path"
 
-	"github.com/byunk/dotfiles/internal/util"
+	"github.com/byunk/dotfiles/pkg/config"
+	"github.com/byunk/dotfiles/pkg/util"
 )
 
-const (
+var (
 	// TODO: dynamically generate tmpDir
-	tmpDir = "/tmp/dotfiles"
+	tmpDir = path.Join(os.TempDir(), "dotfiles")
 )
-
-var binDir = os.ExpandEnv("$HOME/.local/bin")
 
 type InstallOptions struct {
 	*Downloader
-
-	Name    string
-	Version string
-	Type    string
-	// URL is the template URL to download the package
-	URL string
-	// VersionCmd is the command to get the version of the package
-	VersionCmd string
+	*config.InstallerConfig
 
 	Upgrade bool
+}
+
+func New() *InstallOptions {
+	return &InstallOptions{
+		Downloader: NewDownloader(),
+	}
+}
+
+func NewForConfig(c *config.InstallerConfig, downloader *Downloader) *InstallOptions {
+	return &InstallOptions{
+		Downloader:      downloader,
+		InstallerConfig: c,
+	}
 }
 
 func Install(o *InstallOptions) error {
@@ -55,9 +60,10 @@ func installBinary(o *InstallOptions) error {
 		URL:       o.URL,
 		Name:      o.Name,
 		Version:   o.Version,
-		TargetDir: binDir,
+		TargetDir: o.TargetDir(),
 	}
-	slog.Info("Downloading binary", "url", do.URL)
+	slog.Info("Downloading binary", "name", o.Name, "url", do.URL, "target", do.TargetDir, "version", do.Version)
+
 	fullpath, err := o.Download(do)
 	if err != nil {
 		return err
@@ -86,7 +92,7 @@ func installSource(o *InstallOptions) error {
 		return err
 	}
 
-	if err := move(binary, path.Join(binDir, o.Name)); err != nil {
+	if err := move(binary, path.Join(o.TargetDir(), o.Name)); err != nil {
 		return err
 	}
 
@@ -94,8 +100,7 @@ func installSource(o *InstallOptions) error {
 }
 
 func installPackage(o *InstallOptions) error {
-	// TODO: add support for other package managers
-	packageManagers := []string{"apt", "brew", "zypper"}
+	packageManagers := config.SupportedPackageManagers
 
 	for _, manager := range packageManagers {
 		if _, err := exec.LookPath(manager); err == nil {

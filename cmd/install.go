@@ -6,102 +6,69 @@ package cmd
 import (
 	"fmt"
 	"log/slog"
-	"os"
-	"path"
 
-	"github.com/byunk/dotfiles/internal/install"
-	"github.com/byunk/dotfiles/internal/util"
+	"github.com/byunk/dotfiles/pkg/config"
+	"github.com/byunk/dotfiles/pkg/install"
 	"github.com/spf13/cobra"
-	"gopkg.in/yaml.v3"
 )
 
+// InstallOptions represents the options for the install command
+// TODO: merge with install.InstallOptions
+// TODO: install all
+type InstallOptions struct {
+	Target  string
+	Version string
+	Upgrade bool
+}
+
 func NewFromConfig(name string) (*install.InstallOptions, error) {
-	// name should be listed in installers directory
-	currPath, err := os.Getwd()
+	r := config.NewReader()
+	c, err := r.GetConfig(name)
 	if err != nil {
 		return nil, err
 	}
 
-	f, err := os.Open(path.Join(currPath, "installers"))
-	if err != nil {
-		return nil, err
-	}
-	files, err := f.Readdir(0)
-	if err != nil {
-		return nil, err
-	}
+	slog.Info("Found configuration", "config", c)
 
-	config := &install.InstallerConfig{}
-	for _, v := range files {
-		if util.FileNameWithoutExtension(v.Name()) == name {
-			slog.Info("Package found", "name", name)
+	return install.NewForConfig(c, install.NewDownloader()), nil
+}
 
-			// read the config file (yaml)
-			file, err := os.ReadFile(path.Join(currPath, "installers", v.Name()))
-			if err != nil {
-				return nil, err
+func NewInstallCmd() *cobra.Command {
+	o := &InstallOptions{}
+
+	cmd := &cobra.Command{
+		Use:   "install",
+		Short: "Install the specified package",
+		Args:  cobra.ExactArgs(1),
+		Run: func(cmd *cobra.Command, args []string) {
+			if err := o.Run(cmd, args); err != nil {
+				fmt.Println(err)
+				return
 			}
-
-			// parse the config file
-			err = yaml.Unmarshal(file, config)
-			if err != nil {
-				return nil, err
-			}
-
-			slog.Info("Parsed configuration", "name", config.Name, "version", config.Version)
-			return &install.InstallOptions{
-				Downloader: install.NewDownloader(),
-				Name:       config.Name,
-				Version:    config.Version,
-				Type:       config.Type,
-				URL:        config.URL,
-				VersionCmd: config.VersionCmd,
-			}, nil
-		}
+		},
 	}
 
-	return nil, fmt.Errorf("unknown package: %s", name)
+	cmd.Flags().StringVarP(&o.Target, "target", "t", "", "Target directory to install the package")
+	cmd.Flags().StringVarP(&o.Version, "version", "v", "", "Version to install")
+	cmd.Flags().BoolVarP(&o.Upgrade, "upgrade", "u", false, "Upgrade the package")
+
+	return cmd
 }
 
-// installCmd represents the install command
-var installCmd = &cobra.Command{
-	Use:   "install",
-	Short: "Install the specified package",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
-	Args: cobra.ExactArgs(1),
-	Run: func(cmd *cobra.Command, args []string) {
-		if err := runInstall(cmd, args); err != nil {
-			fmt.Println(err)
-			return
-		}
-	},
-}
-
-func init() {
-	rootCmd.AddCommand(installCmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// installCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// installCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
-}
-
-func runInstall(cmd *cobra.Command, args []string) error {
+func (o *InstallOptions) Run(cmd *cobra.Command, args []string) error {
 	name := args[0]
-	o, err := NewFromConfig(name)
+	options, err := NewFromConfig(name)
 	if err != nil {
 		return err
 	}
 
-	return install.Install(o)
+	if o.Target != "" {
+		options.Target = o.Target
+	}
+
+	if o.Version != "" {
+		options.Version = o.Version
+	}
+
+	return install.Install(options)
 }

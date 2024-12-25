@@ -6,70 +6,68 @@ package cmd
 import (
 	"fmt"
 	"log/slog"
-	"os"
-	"path"
 	"slices"
 
-	"github.com/byunk/dotfiles/internal/util"
+	"github.com/byunk/dotfiles/pkg/config"
 	"github.com/spf13/cobra"
 )
 
-// lsCmd represents the ls command
-var lsCmd = &cobra.Command{
-	Use:   "ls",
-	Short: "List all available packages",
-	Args:  cobra.ExactArgs(0),
-	Run: func(cmd *cobra.Command, args []string) {
-		if err := runls(cmd, args); err != nil {
-			slog.Error("Failed to list installers", "error", err)
-			return
-		}
-	},
+type ListOptions struct {
+	Type    bool
+	Version bool
 }
 
-func init() {
-	rootCmd.AddCommand(lsCmd)
+func NewListCmd() *cobra.Command {
+	o := &ListOptions{}
 
-	// Here you will define your flags and configuration settings.
+	cmd := &cobra.Command{
+		Use:   "ls",
+		Short: "List all available packages",
+		Args:  cobra.ExactArgs(0),
+		Run: func(cmd *cobra.Command, args []string) {
+			if err := o.Run(cmd, args); err != nil {
+				slog.Error("Failed to list installers", "error", err)
+				return
+			}
+		},
+	}
 
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// lsCmd.PersistentFlags().String("foo", "", "A help for foo")
+	cmd.Flags().BoolVarP(&o.Type, "type", "t", false, "Show the type of the packages")
+	cmd.Flags().BoolVarP(&o.Version, "version", "v", false, "Show versions of the packages")
 
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// lsCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	return cmd
 }
 
-func runls(cmd *cobra.Command, args []string) error {
-	currPath, err := os.Getwd()
+func (o *ListOptions) Run(cmd *cobra.Command, args []string) error {
+	r := config.NewReader()
+	configs, err := r.AllConfigs()
 	if err != nil {
 		return err
 	}
 
-	f, err := os.Open(path.Join(currPath, "installers"))
-	if err != nil {
-		return err
-	}
-	files, err := f.Readdir(0)
-	if err != nil {
-		return err
-	}
-
-	names := make([]string, 0, len(files))
-	for _, v := range files {
-		if v.IsDir() {
-			continue
+	slices.SortFunc(configs, func(a, b *config.InstallerConfig) int {
+		if a.Name < b.Name {
+			return -1
+		} else if a.Name > b.Name {
+			return 1
+		} else {
+			return 0
 		}
+	})
 
-		names = append(names, util.FileNameWithoutExtension(v.Name()))
-	}
-
-	// sort the names
-	slices.Sort(names)
-
-	for _, v := range names {
-		fmt.Println(v)
+	for _, v := range configs {
+		out := v.Name
+		if o.Version {
+			if v.Version == "" {
+				out += " (latest)"
+			} else {
+				out += fmt.Sprintf(" (%s)", v.Version)
+			}
+		}
+		if o.Type {
+			out += fmt.Sprintf(" (%s)", v.Type)
+		}
+		fmt.Println(out)
 	}
 
 	return nil

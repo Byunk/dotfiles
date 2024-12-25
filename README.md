@@ -10,6 +10,21 @@ Clone this repository with `--recursive` flag.
 git clone --recursive https://github.com/Byunk/dotfiles
 ```
 
+Build the CLI tool.
+
+```bash
+make build
+```
+
+Run the CLI tool.
+
+```bash
+dot --help
+
+# Install packages
+dot install <package>
+```
+
 ### Basic Usage
 
 ```bash

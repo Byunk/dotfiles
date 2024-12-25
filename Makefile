@@ -20,3 +20,5 @@ check-scripts: ## Run shellcheck on all scripts
 	@shellcheck -x -s bash **/*.sh
 	@shellcheck -x -s bash scripts/*
 
+build:
+	go build -o $(HOME)/.local/bin/dot 
