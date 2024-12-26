@@ -2,6 +2,10 @@
 
 Makes setting up a new machine a breeze.
 
+## Prerequisites
+
+- [homebrew](https://docs.brew.sh/Installation)
+
 ## Usage
 
 Clone this repository with `--recursive` flag.
