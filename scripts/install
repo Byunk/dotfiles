@@ -1,190 +1,185 @@
 #!/bin/bash
+#
+# Script to install dotfiles on the user's machine
+# 
 set -euo pipefail
 
-SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
-ROOT_DIR=$(cd "$SCRIPT_DIR/.." && pwd)
-
-INSTLOG="$ROOT_DIR/install.log"
-INSTALL_ALL="${INSTALL_ALL:-false}"
-
-### Util Functions
-
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[0;33m'
-NC='\033[0m'
-
 info() {
-  local message="$1"
-  printf "\r  [ INFO ] %s\n" "${message}"
+  printf "%s\n" "$1"
 }
 
 success() {
-  local message="$1"
-  printf "\r  [ ${GREEN}OK${NC} ] %s\n" "${message}"
+  printf "\033[0;32m[INFO]\033[0m %s\n" "$1"
+}
+
+abort() {
+  printf "%s\n" "$@" >&2
+  exit 1
 }
 
 warn() {
-  local message="$1"
-  printf "\r  [ ${YELLOW}WARN${NC} ] %s\n" "${message}"
+  printf "\033[0;33mWarning\033[0m: %s\n" "$1" >&2
 }
 
-user() {
-  local message="$1"
-  printf "\r  [ ${YELLOW}??${NC} ] %s " "${message}"
+usage() {
+  cat <<EOF
+dotfiles Installer
+Usage: $0 [options]
+    -h, --help          Display this help message
+EOF
+  exit "${1:-0}"
 }
 
-error() {
-  local message="$1"
-  printf "\r  [ ${RED}ERROR${NC} ] %s\n" "${message}"
-  exit
-}
-
-hasCommand() {
+has_command() {
   command -v "$1" &>/dev/null
 }
 
-### Install Packages ###
-prerequisites=(
-  tar
-  gzip
-)
+while [[ $# -gt 0 ]]
+do
+  case "$1" in
+    -h | --help) usage ;;
+    *)
+      warn "Unrecognized option: '$1'"
+      usage 1
+      ;;
+  esac
+done
 
-if ! $INSTALL_ALL; then
-  user "Do you want to install the packages? [y/n]: "
-  read -re INST
+# Required installation paths.
+DOTFILES_PREFIX=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." &>/dev/null && pwd)
+CONFIG_PREFIX="$HOME/.config"
+BACKUP_PREFIX="$HOME/.config/backup"
+
+# gitconfig.local 
+if ! [[ -f "$PWD/gitconfig.local" ]]; then
+  case "$OSTYPE" in
+    darwin*) GIT_CREDENTIAL_HELPER='osxkeychain' ;;
+    *) GIT_CREDENTIAL_HELPER='cache' ;;
+  esac
+
+  info "Enter your git username: "
+  read -re GIT_USER
+  info "Enter your git email: "
+  read -re GIT_EMAIL
+
+  sed \
+    -e "s/AUTHORNAME/$GIT_USER/g" \
+    -e "s/AUTHOREMAIL/$GIT_EMAIL/g" \
+    -e "s/GIT_CREDENTIAL_HELPER/$GIT_CREDENTIAL_HELPER/g" \
+    "$DOTFILES_PREFIX/gitconfig.local.example" \
+    > "$DOTFILES_PREFIX/gitconfig.local"
+
+  link -sf "$DOTFILES_PREFIX/gitconfig.local" "$HOME/.gitconfig.local"
+  success "gitconfig.local has been successfully installed"
+else
+  success "gitconfig.local already exists. Skipping gitconfig.local setup"
 fi
 
-if [[ $INSTALL_ALL == true || $INST == "y" || $INST == "Y" ]]; then
-  info "Installing needed packages"
-
-  # Prerequisites
-  for pre in "${prerequisites[@]}"; do
-    if ! hasCommand "$pre"; then
-      error "$pre is not installed"
-    fi
-  done
-
-  # Install all packages
-  for installer in "$ROOT_DIR"/installers/*; do
-    filename=$(basename "$installer")
-
-    if [[ "$filename" == "common.sh" ]]; then
-      continue
-    fi
-
-    package="${filename%.sh}"
-
-    unset INSTP
-    user "Do you want to install $package? [y/n]: "
-    read -re INSTP
-
-    if [[ $INSTALL_ALL == true || $INSTP == "y" || $INSTP == "Y" ]]; then
-      info "Installing $package"
-
-      if ! sh -c "$installer"; then
-        warn "Failed to install $package"
-      fi
-    fi
-  done
-fi
-
-### Copy Config Files ###
-# Inspired by https://github.com/arnavgr/dotfiles/blob/master/install
-
-user "Do you want to copy the config files? [y/n]: "
-read -re CFG
-if [[ $CFG == "y" || $CFG == "Y" ]]; then
-  info "Setting up config files..."
-  source_dir="$(pwd)/config"
-  destination_dir="$HOME/.config"
-  backup_dir="$HOME/.config/backup"
-
-  mkdir -p "$destination_dir" "$backup_dir"
-
-  # Move existing directories to backup
-  move_to_backup() {
-    if [ -d "$destination_dir/$1" ] && [ -d "$source_dir/$1" ]; then
-      mv "$destination_dir/$1" "$backup_dir/" || warn "Failed to move $1 directory to $backup_dir"
-      # Ensure the directory was moved
-      rm -rf "${destination_dir:?}/$1"
-      info "Existing $1 directory moved to $backup_dir"
-    fi
-  }
-
-  # link up config files
-  for directory in "$source_dir"/*; do
-    if [ -d "$directory" ]; then
-      dirname=$(basename "$directory")
-      move_to_backup "$dirname"
-      ln -sf "$directory" "$destination_dir/$dirname" >>"$INSTLOG" 2>&1
-    fi
-  done
-
-  # Local Git Config
-  info "Setting up local gitconfig"
-
-  if ! [[ -f "$PWD/gitconfig.local" ]]; then
-    if [[ "$OSTYPE" == "darwin"* ]]; then
-      git_credential='osxkeychain'
-    else
-      git_credential='cache'
-    fi
-
-    user "Enter your git username: "
-    read -re GIT_USER
-    user "Enter your git email: "
-    read -re GIT_EMAIL
-
-    sed -e "s/AUTHORNAME/$GIT_USER/g" -e "s/AUTHOREMAIL/$GIT_EMAIL/g" -e "s/GIT_CREDENTIAL_HELPER/$git_credential/g" "$PWD/gitconfig.local.example" >"$PWD/gitconfig.local"
-  fi
-
-  # netrc
-  info "Setting up netrc"
-
-  if ! [[ -f "$HOME/.netrc" ]]; then
-    user "Enter your github username: "
+# netrc
+if ! [[ -f "$HOME/.netrc" ]]; then
+  # if GIT_USER is emtpy
+  if [[ -z "${GIT_USER:-}" ]]; then
+    info "Enter your github username: "
     read -re GITHUB_USER
-    user "Enter your github token: "
-    read -re GITHUB_TOKEN
-    sed -e "s/USERNAME/$GITHUB_USER/g" -e "s/PASSWORD/$GITHUB_TOKEN/g" "$PWD/netrc" >"$HOME/.netrc"
   fi
 
-  # shell-gpt Config
-  if hasCommand sgpt; then
-    info "Setting up shell-gpt config"
+  info "Enter your github token: "
+  read -re GITHUB_TOKEN
 
-    if ! [[ -f "$HOME/.config/shell_gpt/.sgptrc" ]]; then
-      user "Enter openAI API key: "
-      read -re OPENAI_API_KEY
-      # Execute sgpt to ensure config files are generated
-      OPENAI_API_KEY=$OPENAI_API_KEY sgpt >/dev/null 2>&1
-      echo "OPENAI_API_KEY=$OPENAI_API_KEY" >>"$HOME/.config/shell_gpt/.sgptrc"
-    fi
-
-    substitute() {
-      local key="$1"
-      local new_value="$2"
-      if [[ "$OSTYPE" == "darwin"* ]]; then
-        sed -i '' "s|^\($key=\).*|\1$new_value|" "$HOME/.config/shell_gpt/.sgptrc"
-      else
-        sed -i "s|^\($key=\).*|\1$new_value|" "$HOME/.config/shell_gpt/.sgptrc"
-      fi
-    }
-
-    substitute "DEFAULT_MODEL" "gpt-4o-mini"
-    substitute "ROLE_STORAGE_PATH" "$PWD/config/shell_gpt/roles"
-    substitute "OPENAI_FUNCTIONS_PATH" "$PWD/config/shell_gpt/functions"
-
-    success "shell-gpt config has been set up"
-  fi
-
-  # link other files
-  ln -sf "$PWD/zshenv" "$HOME/.zshenv"
-  ln -sf "$PWD/gitconfig" "$HOME/.gitconfig"
-  ln -sf "$PWD/gitconfig.local" "$HOME/.gitconfig.local"
-  ln -sf "$PWD/gitignore" "$HOME/.gitignore"
-  ln -sf "$PWD/vimrc" "$HOME/.vimrc"
+  sed \
+    -e "s/USERNAME/$GITHUB_USER/g" \
+    -e "s/PASSWORD/$GITHUB_TOKEN/g" \
+    "$DOTFILES_PREFIX/netrc" > "$HOME/.netrc"
+  success "netrc has been successfully installed"
+else
+  success "netrc already exists. Skipping netrc setup"
 fi
 
-success "Installation has been completed!"
+# shell-gpt
+if ! has_command "sgpt"; then
+  warn "shell-gpt is not installed. Skipping shell-gpt config setup"
+elif [[ -f "$CONFIG_PREFIX/shell_gpt/.sgptrc" ]]; then
+  success "shell-gpt config already exists. Skipping shell-gpt config setup"
+else
+  SHELL_GPT_PREFIX="$CONFIG_PREFIX/shell_gpt"
+  DEFAULT_SHELL_GPT_MODEL="gpt-4o-mini"
+  DEFAULT_SHELL_GPT_ROLE_STORAGE_PATH="$SHELL_GPT_PREFIX/roles"
+  DEFAULT_SHELL_GPT_FUNCTIONS_PATH="$SHELL_GPT_PREFIX/functions"
+  # TODO
+  info "Enter openAI API key: "
+  read -re OPENAI_API_KEY
+  info "Enter shell-gpt model (default: $DEFAULT_SHELL_GPT_MODEL): "
+  read -re SHELL_GPT_MODEL
+  SHELL_GPT_MODEL=${SHELL_GPT_MODEL:-$DEFAULT_SHELL_GPT_MODEL}
+  info "Enter shell-gpt role storage path (default: $DEFAULT_SHELL_GPT_ROLE_STORAGE_PATH): "
+  read -re SHELL_GPT_ROLE_STORAGE_PATH
+  SHELL_GPT_ROLE_STORAGE_PATH=${SHELL_GPT_ROLE_STORAGE_PATH:-$DEFAULT_SHELL_GPT_ROLE_STORAGE_PATH}
+  info "Enter shell-gpt functions path (default: $DEFAULT_SHELL_GPT_FUNCTIONS_PATH): "
+  read -re SHELL_GPT_FUNCTIONS_PATH
+  SHELL_GPT_FUNCTIONS_PATH=${SHELL_GPT_FUNCTIONS_PATH:-$DEFAULT_SHELL_GPT_FUNCTIONS_PATH}
+
+  SGPTRC=$(cat <<EOF
+OPENAI_API_KEY=$OPENAI_API_KEY
+API_BASE_URL=default
+CHAT_CACHE_LENGTH=100
+CHAT_CACHE_PATH=/tmp/shell_gpt/chat_cache
+CACHE_LENGTH=100
+CACHE_PATH=/tmp/shell_gpt/cache
+REQUEST_TIMEOUT=60
+DEFAULT_MODEL=$SHELL_GPT_MODEL
+DEFAULT_COLOR=magenta
+ROLE_STORAGE_PATH=$SHELL_GPT_ROLE_STORAGE_PATH
+DEFAULT_EXECUTE_SHELL_CMD=false
+DISABLE_STREAMING=false
+CODE_THEME=default
+OPENAI_FUNCTIONS_PATH=$SHELL_GPT_FUNCTIONS_PATH
+SHOW_FUNCTIONS_OUTPUT=false
+OPENAI_USE_FUNCTIONS=true
+USE_LITELLM=false
+EOF
+)
+  echo "$SGPTRC" > "$DOTFILES_PREFIX/config/shell_gpt/.sgptrc"
+  success "shell-gpt config has been successfully installed"
+fi
+
+backup() {
+  local source_dir=$1
+  # Ensure the backup directory exists
+  mkdir -p "$BACKUP_PREFIX"
+
+  if ! [ -d "$source_dir" ]; then
+    warn "Source directory $source_dir does not exist"
+    return
+  fi
+
+  if [ -L "$source_dir" ]; then
+    warn "$source_dir is a symlink. Skipping backup"
+  else
+    mv "$source_dir" "$BACKUP_PREFIX/" || warn "Failed to move $source_dir to $BACKUP_PREFIX"
+  fi
+
+  # Ensure the source directory is removed
+  rm -rf "$source_dir" || warn "Failed to remove $source_dir"
+}
+
+# link up config files
+for directory in "$DOTFILES_PREFIX/config"/*; do
+  if [ -d "$directory" ]; then
+    dirname=$(basename "$directory")
+    backup "$CONFIG_PREFIX/$dirname"
+    ln -sf "$directory" "$CONFIG_PREFIX/$dirname" 2>&1
+    success "$dirname has been successfully installed"
+  fi
+done
+
+declare -a CONFIG_FILES=("gitconfig" "gitignore" "vimrc" "zshenv")
+
+for file in "${CONFIG_FILES[@]}"; do
+  filename=$(basename "$file")
+  ln -sf "$file" "$HOME/.$filename" 2>&1
+  success "$filename has been successfully installed"
+done
+
+success "Installation complete"
+info ""
+info "Please restart your shell to apply the changes"
