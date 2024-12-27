@@ -1,3 +1,0 @@
-name: zellij 
-type: package
-versionCmd: "zellij --version"

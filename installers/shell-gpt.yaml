@@ -1,3 +1,0 @@
-name: shell-gpt 
-type: pip
-versionCmd: "sgpt --version"

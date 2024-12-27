@@ -1,3 +1,0 @@
-name: thefuck 
-type: package
-versionCmd: "thefuck --version"

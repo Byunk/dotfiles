@@ -1,3 +1,0 @@
-name: zsh
-type: package
-versionCmd: "zsh --version"

@@ -1,5 +1,0 @@
-name: helm 
-version: v3.16.4
-type: source
-url: "https://get.helm.sh/helm-$VERSION-$OS-$ARCH.tar.gz"
-versionCmd: "helm version"

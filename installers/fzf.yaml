@@ -1,5 +1,0 @@
-name: fzf 
-version: "0.57.0"
-type: source
-url: "https://github.com/junegunn/fzf/releases/download/v$VERSION/fzf-$VERSION-$OS_$ARCH.tar.gz"
-versionCmd: "fzf --version"

@@ -1,3 +1,0 @@
-name: fd 
-type: package
-versionCmd: "fd --version"

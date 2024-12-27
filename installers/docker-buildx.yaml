@@ -1,6 +1,0 @@
-name: docker-buildx
-version: v0.19.3
-type: binary
-url: "https://github.com/docker/buildx/releases/download/$VERSION/buildx-$VERSION.$OS-$ARCH"
-versionCmd: "docker buildx version"
-targetDir: "$HOME/.docker/cli-plugins"

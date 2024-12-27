@@ -1,5 +1,0 @@
-name: shellcheck 
-version: v0.10.0
-type: source
-url: "https://github.com/koalaman/shellcheck/releases/download/$VERSION/shellcheck-$VERSION.$OS.$ARCH.tar.xz"
-versionCmd: "shellcheck --version"

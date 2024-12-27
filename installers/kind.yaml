@@ -1,5 +1,0 @@
-name: kind
-version: "v0.11.1"
-type: binary
-url: "https://kind.sigs.k8s.io/dl/$VERSION/kind-$OS-$ARCH"
-versionCmd: "kind --version"
