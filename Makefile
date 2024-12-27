@@ -7,10 +7,10 @@ help: ## Show this help
 	@echo "Targets:"
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "  %-20s %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
-install: scripts/install ## Install dependencies
+install: scripts/install ## Install dotfiles
 	@$<
 
-install-brew: ## Install by Homebrew
+install-packages: ./Brewfile ## Install packages
 	@brew bundle
 
 macos-setting: scripts/macos-setting.sh ## Macos system setting
@@ -19,6 +19,3 @@ macos-setting: scripts/macos-setting.sh ## Macos system setting
 check-scripts: ## Run shellcheck on all scripts
 	@shellcheck -x -s bash **/*.sh
 	@shellcheck -x -s bash scripts/*
-
-build:
-	go build -o $(HOME)/.local/bin/dot 
