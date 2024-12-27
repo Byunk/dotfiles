@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # Script to install dotfiles on the user's machine
-# 
+#
 set -euo pipefail
 
 info() {
@@ -34,14 +34,13 @@ has_command() {
   command -v "$1" &>/dev/null
 }
 
-while [[ $# -gt 0 ]]
-do
+while [[ $# -gt 0 ]]; do
   case "$1" in
-    -h | --help) usage ;;
-    *)
-      warn "Unrecognized option: '$1'"
-      usage 1
-      ;;
+  -h | --help) usage ;;
+  *)
+    warn "Unrecognized option: '$1'"
+    usage 1
+    ;;
   esac
 done
 
@@ -50,11 +49,11 @@ DOTFILES_PREFIX=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." &>/dev/null && pw
 CONFIG_PREFIX="$HOME/.config"
 BACKUP_PREFIX="$HOME/.config/backup"
 
-# gitconfig.local 
+# gitconfig.local
 if ! [[ -f "$PWD/gitconfig.local" ]]; then
   case "$OSTYPE" in
-    darwin*) GIT_CREDENTIAL_HELPER='osxkeychain' ;;
-    *) GIT_CREDENTIAL_HELPER='cache' ;;
+  darwin*) GIT_CREDENTIAL_HELPER='osxkeychain' ;;
+  *) GIT_CREDENTIAL_HELPER='cache' ;;
   esac
 
   info "Enter your git username: "
@@ -67,7 +66,7 @@ if ! [[ -f "$PWD/gitconfig.local" ]]; then
     -e "s/AUTHOREMAIL/$GIT_EMAIL/g" \
     -e "s/GIT_CREDENTIAL_HELPER/$GIT_CREDENTIAL_HELPER/g" \
     "$DOTFILES_PREFIX/gitconfig.local.example" \
-    > "$DOTFILES_PREFIX/gitconfig.local"
+    >"$DOTFILES_PREFIX/gitconfig.local"
 
   link -sf "$DOTFILES_PREFIX/gitconfig.local" "$HOME/.gitconfig.local"
   success "gitconfig.local has been successfully installed"
@@ -89,7 +88,7 @@ if ! [[ -f "$HOME/.netrc" ]]; then
   sed \
     -e "s/USERNAME/$GITHUB_USER/g" \
     -e "s/PASSWORD/$GITHUB_TOKEN/g" \
-    "$DOTFILES_PREFIX/netrc" > "$HOME/.netrc"
+    "$DOTFILES_PREFIX/netrc" >"$HOME/.netrc"
   success "netrc has been successfully installed"
 else
   success "netrc already exists. Skipping netrc setup"
@@ -118,7 +117,8 @@ else
   read -re SHELL_GPT_FUNCTIONS_PATH
   SHELL_GPT_FUNCTIONS_PATH=${SHELL_GPT_FUNCTIONS_PATH:-$DEFAULT_SHELL_GPT_FUNCTIONS_PATH}
 
-  SGPTRC=$(cat <<EOF
+  SGPTRC=$(
+    cat <<EOF
 OPENAI_API_KEY=$OPENAI_API_KEY
 API_BASE_URL=default
 CHAT_CACHE_LENGTH=100
@@ -137,8 +137,8 @@ SHOW_FUNCTIONS_OUTPUT=false
 OPENAI_USE_FUNCTIONS=true
 USE_LITELLM=false
 EOF
-)
-  echo "$SGPTRC" > "$DOTFILES_PREFIX/config/shell_gpt/.sgptrc"
+  )
+  echo "$SGPTRC" >"$DOTFILES_PREFIX/config/shell_gpt/.sgptrc"
   success "shell-gpt config has been successfully installed"
 fi
 
