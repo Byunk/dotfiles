@@ -176,7 +176,7 @@ declare -a CONFIG_FILES=("gitconfig" "gitignore" "vimrc" "zshenv")
 
 for file in "${CONFIG_FILES[@]}"; do
   filename=$(basename "$file")
-  ln -sf "$file" "$HOME/.$filename" 2>&1
+  ln -sf "$DOTFILES_PREFIX/$file" "$HOME/.$filename" 2>&1
   success "$filename has been successfully installed"
 done
 
