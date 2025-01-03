@@ -20,7 +20,10 @@
         #
         # Setting to git 2.0 default to suppress warning message
         default = simple
+	recurseSubmodules = check
 [pull]
 	ff = only
 [init]
 	defaultBranch = main
+[status]
+	submodulesummary = 1
