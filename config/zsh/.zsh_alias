@@ -19,6 +19,8 @@ alias l='ls -A -l -h --color=auto'
 alias cl='clear'
 alias rf='rm -rf'
 alias config='cd ~/.config'
+alias dot='cd ~/dotfiles'
+alias reload='source ~/.config/zsh/.zshrc'
 alias autogit='git diff --staged | sgpt --role "Commit Message Generator" - | git commit -F -'
 
 # nvim
