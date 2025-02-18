@@ -14,7 +14,7 @@ mkdir -p "$BACKUP_DIR"
 
 # gitconfig
 
-TEMPLATE_GITCONFIG="$ROOT_DIR/gitconfig.template"
+TEMPLATE_GITCONFIG="$ROOT_DIR/gitconfig.local.template"
 LOCAL_GITCONFIG="$ROOT_DIR/gitconfig.local"
 
 if ! [[ -f "$LOCAL_GITCONFIG" ]]; then
