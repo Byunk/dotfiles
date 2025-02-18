@@ -12,6 +12,8 @@ BACKUP_DIR="$HOME/.backup"
 mkdir -p "$CONFIG_DIR"
 mkdir -p "$BACKUP_DIR"
 
+git submodule update --init --recursive
+
 # gitconfig
 
 TEMPLATE_GITCONFIG="$ROOT_DIR/gitconfig.local.template"
