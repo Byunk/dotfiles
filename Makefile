@@ -7,7 +7,7 @@ help: ## Show this help
 	@echo "Targets:"
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "  %-20s %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
-install: scripts/install ## Install dotfiles
+install: scripts/install.sh ## Install dotfiles
 	@$<
 
 install-packages: ./Brewfile ## Install packages
@@ -18,4 +18,3 @@ macos-setting: scripts/macos-setting.sh ## Macos system setting
 
 check-scripts: ## Run shellcheck on all scripts
 	@shellcheck -x -s bash **/*.sh
-	@shellcheck -x -s bash scripts/*

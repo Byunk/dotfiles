@@ -1,9 +1,3 @@
-# Directories
-__pycache__/
-
-# Private
-gitconfig.local
-
 # zsh
 config/zsh/.zsh_history
 config/zsh/.zcompdump
@@ -15,3 +9,6 @@ config/shell_gpt/.sgptrc
 
 # Logs
 *.log
+
+# Dotfiles
+*.local

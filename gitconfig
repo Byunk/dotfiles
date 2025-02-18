@@ -1,29 +1,32 @@
-# Local/private config goes in the include
 [include]
         path = ~/.gitconfig.local
+
 [hub]
         protocol = https
+
 [alias]
         co = checkout
-		clear = !git branch | grep -v \"master\" | grep -v \"main\" | xargs git branch -D
+        clear = !git branch | grep -v "master" | grep -v "main" | xargs git branch -D
+
 [color]
         diff = auto
         status = auto
         branch = auto
         ui = true
+
 [core]
         excludesfile = ~/.gitignore
         editor = nvim
+
 [push]
-        # See `git help config` (search for push.default)
-        # for more information on different options of the below setting.
-        #
-        # Setting to git 2.0 default to suppress warning message
         default = simple
-	recurseSubmodules = check
+        recurseSubmodules = check
+
 [pull]
-	ff = only
+        ff = only
+
 [init]
-	defaultBranch = main
+        defaultBranch = main
+
 [status]
-	submodulesummary = 1
+        submodulesummary = 1
