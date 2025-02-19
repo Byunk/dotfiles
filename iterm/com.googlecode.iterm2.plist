@@ -10,6 +10,8 @@
 	<true/>
 	<key>EnterCopyModeAutomatically</key>
 	<false/>
+	<key>ForceKeyboard</key>
+	<true/>
 	<key>HapticFeedbackForEsc</key>
 	<false/>
 	<key>HideScrollbar</key>
@@ -24,6 +26,8 @@
 	<true/>
 	<key>HotkeyModifiers</key>
 	<integer>524288</integer>
+	<key>KeyboardLocale</key>
+	<string>com.apple.keylayout.ABC</string>
 	<key>NeverBlockSystemShutdown</key>
 	<true/>
 	<key>New Bookmarks</key>
