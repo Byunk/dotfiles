@@ -1,14 +1,8 @@
-# zsh
-config/zsh/.zsh_history
-config/zsh/.zcompdump
-config/zsh/.zsh_plugins.zsh
-config/zsh/.zsh_sessions/
-
-# sgpt
-config/shell_gpt/.sgptrc
-
-# Logs
-*.log
-
 # Dotfiles
 *.local
+
+# Zsh
+**/.zcompdump
+**/.zsh_history
+**/.zsh_sessions
+**/.zsh_plugins.zsh

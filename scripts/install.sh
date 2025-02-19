@@ -84,7 +84,8 @@ backup() {
   local target="$BACKUP_DIR/$(basename "$source")"
 
   if [[ -L "$source" ]]; then
-    warn "Skipping backup $source, it's a symlink"
+    warn "It's a symlink, skipping backup and removing $source"
+    rm "$source" || (error "Failed to remove $source" && exit 1)
     return
   else
     mv "$source" "$target" || (error "Failed to backup $source to $target" && exit 1)
@@ -113,10 +114,17 @@ for dir in "$ROOT_DIR/config"/*; do
   fi
 done
 
+# Directories
+install "$ROOT_DIR/nvim" "$CONFIG_DIR/nvim"
+install "$ROOT_DIR/zellij" "$CONFIG_DIR/zellij"
+install "$ROOT_DIR/zsh" "$CONFIG_DIR/zsh"
+
+# Files
 install "$ROOT_DIR/gitconfig.local" "$HOME/.gitconfig.local"
 install "$ROOT_DIR/gitconfig" "$HOME/.gitconfig"
 install "$ROOT_DIR/gitignore" "$HOME/.gitignore"
 install "$ROOT_DIR/netrc.local" "$HOME/.netrc"
+install "$ROOT_DIR/zshrc" "$HOME/.zshrc"
 install "$ROOT_DIR/zshenv" "$HOME/.zshenv"
 
 echo ""
