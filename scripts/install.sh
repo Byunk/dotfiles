@@ -129,4 +129,4 @@ install "$ROOT_DIR/zshenv" "$HOME/.zshenv"
 
 echo ""
 info "Installation complete"
-info "source ~/.config/zsh/.zshrc"
+info "source ~/.zshrc"
