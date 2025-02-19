@@ -1,3 +1,4 @@
+#!/bin/zsh
 # 
 # ZSH Configuration by Byunk
 #
@@ -11,7 +12,8 @@ hasCommand () {
 mkdir -p "$XDG_CACHE_HOME/zsh"
 mkdir -p "$XDG_DATA_HOME/zsh"
 
-## History
+### History
+
 HISTFILE="$ZDOTDIR/.zsh_history"
 HISTSIZE=100000
 SAVEHIST=100000
@@ -26,7 +28,7 @@ setopt HIST_SAVE_NO_DUPS
 setopt HIST_FIND_NO_DUPS
 setopt GLOBDOTS
 
-## Key Bindings
+### Key Bindings
 
 # Enable history substring search
 bindkey '^[[A' history-substring-search-up
@@ -41,28 +43,13 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
   export PATH="/opt/homebrew/bin:$PATH"
 fi
 
-mkdir -p "$HOME/.local/bin"
-export PATH="$HOME/.local/bin:$PATH"
+### Completion
 
-# Add ~/go/bin
-export PATH="$HOME/go/bin:$PATH"
-
-# Java
-if [[ "$OSTYPE" == "darwin"* ]]; then
-  export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
-  export CPPFLAGS="-I/opt/homebrew/opt/openjdk/include"
-fi
-
-## Completion
 FUNC_DIR="$XDG_DATA_HOME/zsh/site-functions"
 mkdir -p "$FUNC_DIR"
 FPATH="$FUNC_DIR:$FPATH"
 
 autoload -U compinit; compinit
-
-if hasCommand thefuck; then
-  eval $(thefuck --alias)
-fi
 
 # docker
 if hasCommand docker; then
@@ -82,31 +69,9 @@ if hasCommand fzf; then
   source <(fzf --zsh)
 fi
 
-# sgpt
-if hasCommand sgpt; then
-  # Shell-GPT integration ZSH v0.2
-  _sgpt_zsh() {
-  if [[ -n "$BUFFER" ]]; then
-      _sgpt_prev_cmd=$BUFFER
-      BUFFER+="⌛"
-      zle -I && zle redisplay
-      BUFFER=$(sgpt --shell <<< "$_sgpt_prev_cmd" --no-interaction)
-      zle end-of-line
-  fi
-  }
-  zle -N _sgpt_zsh
-  bindkey ^l _sgpt_zsh
-  # Shell-GPT integration ZSH v0.2
-fi
-
 # helm
 if hasCommand helm; then
   helm completion zsh > "$FUNC_DIR/_helm"
-fi
-
-# istioctl
-if hasCommand istioctl; then
-  istioctl completion zsh > "$FUNC_DIR/_istioctl"
 fi
 
 # kind
@@ -114,7 +79,7 @@ if hasCommand kind; then
   kind completion zsh > "$FUNC_DIR/_kind"
 fi
 
-## Plugins
+### Plugins
 
 # Load antidote plugin manager
 source $ZDOTDIR/antidote/antidote.zsh
@@ -131,7 +96,8 @@ then
   source "$HOME/.localrc"
 fi
 
-## Prompt
+### Prompt
+
 autoload -Uz vcs_info
 
 zstyle ':vcs_info:*' enable git
