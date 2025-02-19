@@ -18,3 +18,6 @@ macos-setting: scripts/macos-setting.sh ## Macos system setting
 
 check-scripts: ## Run shellcheck on all scripts
 	@shellcheck -x -s bash **/*.sh
+
+install-homebrew:
+	@/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
