@@ -2,6 +2,7 @@
 set -euo pipefail
 
 CURR_DIR="$(dirname "$0")"
+# shellcheck disable=SC1091,SC1090
 source "$CURR_DIR/common.sh"
 
 ROOT_DIR=$(dirname "$CURR_DIR")
@@ -81,7 +82,8 @@ fi
 
 backup() {
   local source="$1"
-  local target="$BACKUP_DIR/$(basename "$source")"
+  local target
+  target="$BACKUP_DIR/$(basename "$source")"
 
   if [[ -L "$source" ]]; then
     warn "It's a symlink, skipping backup and removing $source"
@@ -93,8 +95,9 @@ backup() {
 }
 
 install() {
-  local source=$(realpath "$1")
+  local source
   local target="$2"
+  source=$(realpath "$1")
 
   if [[ -e "$target" ]]; then
     backup "$target"

@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/bin/bash
 
 # Reference: https://macos-defaults.com/
 
@@ -365,7 +365,7 @@ defaults write com.apple.mail SpellCheckingBehavior -string "NoSpellCheckingEnab
 ###############################################################################
 
 # Specify the preferences directory
-defaults write com.googlecode.iterm2 PrefsCustomFolder -string "~/dotfiles/iterm"
+defaults write com.googlecode.iterm2 PrefsCustomFolder -string "$HOME/dotfiles/iterm"
 
 # Tell iTerm2 to use the custom preferences in the directory
 defaults write com.googlecode.iterm2 LoadPrefsFromCustomFolder -bool true
