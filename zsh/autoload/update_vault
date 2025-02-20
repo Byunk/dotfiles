@@ -1,0 +1,14 @@
+update_vault () {
+    if [[ $# -ne 1 ]]; then
+        echo "Usage: update_vault <new_token>"
+        return 1
+    fi
+
+    local new_token="$1"
+
+    set -e
+    sed -i '' -e "s/\(export VAULT_TOKEN=\).*/\1${new_token}/" "${HOME}/.localrc"
+    set +e
+    
+    echo "Vault token updated"
+}

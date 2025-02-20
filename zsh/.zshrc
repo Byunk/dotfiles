@@ -45,11 +45,19 @@ fi
 
 ### Completion
 
-FUNC_DIR="$XDG_DATA_HOME/zsh/site-functions"
+FUNC_DIR="$XDG_CONFIG_HOME/site-functions"
 mkdir -p "$FUNC_DIR"
 FPATH="$FUNC_DIR:$FPATH"
+export FPATH="$ZDOTDIR/autoload:$FPATH"
 
 autoload -U compinit; compinit
+
+# TODO: autoload functions not updated with source .zshrc. Should create a new shell session to update the functions
+for function in "$ZDOTDIR/autoload"/*; do
+  if [[ -f "$function" ]]; then
+    autoload -Uz $(basename "$function")
+  fi
+done
 
 # docker
 if hasCommand docker; then
