@@ -1,5 +1,5 @@
 #!/bin/zsh
-# 
+#
 # ZSH Configuration by Byunk
 #
 
@@ -90,8 +90,12 @@ fi
 ### Plugins
 
 # Load antidote plugin manager
-source $ZDOTDIR/antidote/antidote.zsh
-antidote load ${ZDOTDIR:-$HOME}/.zsh_plugins.txt
+if [[ ! -d "$ZDOTDIR/.antidote" ]]; then
+  git clone https://github.com/mattmc3/antidote "$ZDOTDIR/.antidote"
+fi
+
+source "$ZDOTDIR/.antidote/antidote.zsh"
+antidote load
 
 # zellij
 # eval "$(zellij setup --generate-auto-start zsh)"
@@ -239,4 +243,4 @@ function init() {
 }
 
 init
-
+# zprof
