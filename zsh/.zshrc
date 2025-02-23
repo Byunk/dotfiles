@@ -48,24 +48,16 @@ fi
 FUNC_DIR="$XDG_CONFIG_HOME/site-functions"
 mkdir -p "$FUNC_DIR"
 FPATH="$FUNC_DIR:$FPATH"
-export FPATH="$ZDOTDIR/autoload:$FPATH"
-
-autoload -U compinit; compinit
-
-# TODO: autoload functions not updated with source .zshrc. Should create a new shell session to update the functions
-for function in "$ZDOTDIR/autoload"/*; do
-  if [[ -f "$function" ]]; then
-    autoload -Uz $(basename "$function")
-  fi
-done
+export FPATH="$ZDOTDIR/zfunctions:$FPATH"
+autoload -Uz $ZDOTDIR/zfunctions/*(.:t)
 
 # docker
-if hasCommand docker; then
+if hasCommand docker && [[ ! -f "$FUNC_DIR/_docker" ]]; then
   docker completion zsh > "$FUNC_DIR/_docker"
 fi
 
 # kubectl
-if hasCommand kubectl; then
+if hasCommand kubectl && [[ ! -f "$FUNC_DIR/_kubectl" ]]; then
   kubectl completion zsh > "$FUNC_DIR/_kubectl"
 fi
 
@@ -73,19 +65,21 @@ fi
 export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix --hidden --follow --exclude .git --exclude node_modules --exclude .venv'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
-if hasCommand fzf; then
+if hasCommand fzf && [[ ! -f "$FUNC_DIR/_fzf" ]]; then
   source <(fzf --zsh)
 fi
 
 # helm
-if hasCommand helm; then
+if hasCommand helm && [[ ! -f "$FUNC_DIR/_helm" ]]; then
   helm completion zsh > "$FUNC_DIR/_helm"
 fi
 
 # kind
-if hasCommand kind; then
+if hasCommand kind && [[ ! -f "$FUNC_DIR/_kind" ]]; then
   kind completion zsh > "$FUNC_DIR/_kind"
 fi
+
+autoload -Uz compinit; compinit
 
 ### Plugins
 
