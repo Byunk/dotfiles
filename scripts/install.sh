@@ -128,7 +128,10 @@ install "$ROOT_DIR/gitconfig" "$HOME/.gitconfig"
 install "$ROOT_DIR/gitignore" "$HOME/.gitignore"
 install "$ROOT_DIR/netrc.local" "$HOME/.netrc"
 install "$ROOT_DIR/zshenv" "$HOME/.zshenv"
-install "$ROOT_DIR/vscode/settings.json" "$HOME/Library/Application Support/Code/User/settings.json"
+
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  install "$ROOT_DIR/vscode/settings.json" "$HOME/Library/Application Support/Code/User/settings.json"
+fi
 
 echo ""
 info "Installation complete"
