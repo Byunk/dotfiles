@@ -5,7 +5,6 @@ return {
 			servers = {
 				pyright = {},
 				gopls = {},
-				solidity = {},
 			},
 		},
 	},
