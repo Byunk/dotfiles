@@ -61,8 +61,8 @@ create_netrc_machine() {
 if ! [[ -f "$LOCAL_NETRC" ]]; then
   info ".netrc not found, creating one"
 
-  read -r -p  "Enter your GitHub username: " GITHUB_USERNAME 
-  read -r -p  "Enter your GitHub token: " GITHUB_TOKEN 
+  read -r -p  "Enter your GitHub username: " GITHUB_USERNAME
+  read -r -p  "Enter your GitHub token: " GITHUB_TOKEN
 
   create_netrc_machine "github.com" "$GITHUB_USERNAME" "$GITHUB_TOKEN"
 
@@ -128,6 +128,7 @@ install "$ROOT_DIR/gitconfig" "$HOME/.gitconfig"
 install "$ROOT_DIR/gitignore" "$HOME/.gitignore"
 install "$ROOT_DIR/netrc.local" "$HOME/.netrc"
 install "$ROOT_DIR/zshenv" "$HOME/.zshenv"
+install "$ROOT_DIR/vscode/settings.json" "$HOME/Library/Application Support/Code/User/settings.json"
 
 echo ""
 info "Installation complete"
