@@ -1,0 +1,38 @@
+[
+  {
+    "content": "Examine existing test structure and main code modules",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Analyze core functionality to identify testable components",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Generate unit tests for env_vars module",
+    "status": "in_progress",
+    "priority": "high",
+    "id": "3"
+  },
+  {
+    "content": "Generate unit tests for RestClient",
+    "status": "pending",
+    "priority": "high",
+    "id": "4"
+  },
+  {
+    "content": "Generate unit tests for ServiceManagerClient",
+    "status": "pending",
+    "priority": "high",
+    "id": "5"
+  },
+  {
+    "content": "Generate unit tests for K8sClient",
+    "status": "pending",
+    "priority": "high",
+    "id": "6"
+  }
+]
