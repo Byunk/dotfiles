@@ -122,6 +122,7 @@ install "$ROOT_DIR/nvim" "$CONFIG_DIR/nvim"
 install "$ROOT_DIR/zellij" "$CONFIG_DIR/zellij"
 install "$ROOT_DIR/zsh" "$CONFIG_DIR/zsh"
 install "$ROOT_DIR/claude/agents" "$HOME/.claude/agents"
+install "$ROOT_DIR/claude/CLAUDE.md" "$HOME/.claude/CLAUDE.md"
 
 # Files
 install "$ROOT_DIR/gitconfig.local" "$HOME/.gitconfig.local"
