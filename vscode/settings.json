@@ -1,93 +1,103 @@
 {
-  // ========== WORKBENCH SETTINGS ==========
-  "workbench.iconTheme": "material-icon-theme",
-  "workbench.startupEditor": "none",
-  "workbench.editorLargeFileConfirmation": 100,
+	// ========== WORKBENCH SETTINGS ==========
+	"workbench.iconTheme": "material-icon-theme",
+	"workbench.startupEditor": "none",
+	"workbench.editorLargeFileConfirmation": 100,
 
-  // ========== EDITOR SETTINGS ==========
-  "editor.tabSize": 2,
-  "editor.insertSpaces": true,
-  "editor.minimap.enabled": false,
-  "editor.fontSize": 14,
-  "editor.wordWrap": "on",
-  "editor.renderWhitespace": "all",
-  "editor.quickSuggestions": {
-    "strings": "on"
-  },
-  "editor.tokenColorCustomizations": {
-    "comments": "#9bdcab"
-  },
-  "editor.codeActionsOnSave": {
-    "source.fixAll": "explicit"
-  },
-  "editor.formatOnSave": true,
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
+	// ========== EDITOR SETTINGS ==========
+	"editor.tabSize": 2,
+	"editor.insertSpaces": true,
+	"editor.minimap.enabled": false,
+	"editor.fontSize": 14,
+	"editor.wordWrap": "on",
+	"editor.renderWhitespace": "all",
+	"editor.quickSuggestions": {
+		"strings": "on"
+	},
+	"editor.tokenColorCustomizations": {
+		"comments": "#9bdcab"
+	},
+	"editor.codeActionsOnSave": {
+		"source.fixAll": "explicit"
+	},
+	"editor.defaultFormatter": "esbenp.prettier-vscode",
 
-  // ========== EXPLORER SETTINGS ==========
-  "explorer.confirmDragAndDrop": false,
-  "explorer.confirmDelete": false,
+	// ========== EXPLORER SETTINGS ==========
+	"explorer.confirmDragAndDrop": false,
+	"explorer.confirmDelete": false,
 
-  // ========== TERMINAL SETTINGS ==========
-  "terminal.integrated.fontFamily": "'Monaco for Powerline'",
-  "terminal.integrated.altClickMovesCursor": false,
-  "terminal.integrated.cursorBlinking": true,
-  "terminal.integrated.tabs.enableAnimation": false,
-  "terminal.integrated.defaultProfile.osx": "zsh",
-  "terminal.external.osxExec": "iTerm.app",
-  "terminal.integrated.enableMultiLinePasteWarning": "auto",
+	// ========== TERMINAL SETTINGS ==========
+	"terminal.integrated.fontFamily": "'Monaco for Powerline'",
+	"terminal.integrated.altClickMovesCursor": false,
+	"terminal.integrated.cursorBlinking": true,
+	"terminal.integrated.tabs.enableAnimation": false,
+	"terminal.integrated.defaultProfile.osx": "zsh",
+	"terminal.external.osxExec": "iTerm.app",
+	"terminal.integrated.enableMultiLinePasteWarning": "auto",
 
-  // ========== PRETTIER SETTINGS ==========
-  "prettier.useTabs": true,
-  "prettier.jsxSingleQuote": true,
-  "prettier.singleQuote": true,
-  "prettier.printWidth": 160,
+	// ========== PRETTIER SETTINGS ==========
+	"prettier.useTabs": true,
+	"prettier.jsxSingleQuote": true,
+	"prettier.singleQuote": true,
+	"prettier.printWidth": 160,
 
-  // ========== LANGUAGE SPECIFIC SETTINGS ==========
-  "[python]": {
-    "editor.tabSize": 4,
-    "editor.defaultFormatter": "ms-python.black-formatter"
-  },
-  "[go]": {
-    "editor.defaultFormatter": "golang.go"
-  },
+	// ========== LANGUAGE SPECIFIC SETTINGS ==========
+	"[python]": {
+		"editor.tabSize": 4,
+		"editor.defaultFormatter": "ms-python.black-formatter"
+	},
+	"[go]": {
+		"editor.defaultFormatter": "golang.go"
+	},
 
-  // ========== PYTHON SETTINGS ==========
-  "python.analysis.autoImportCompletions": true,
-  "python.analysis.packageIndexDepths": [
-    {
-      "name": "", // include all the packages to the depth of 5
-      "depth": 5,
-      "includeAllSymbols": true
-    }
-  ],
+	// ========== PYTHON SETTINGS ==========
+	"python.analysis.autoImportCompletions": true,
+	"python.analysis.includeAlasesFromUserFiles": true,
+	"python.analysis.packageIndexDepths": [
+		{
+			"name": "", // include all the packages to the depth of 5
+			"depth": 5,
+			"includeAllSymbols": true
+		}
+	],
 
-  // ========== GO SETTINGS ==========
-  "go.toolsManagement.autoUpdate": true,
+	// ========== GO SETTINGS ==========
+	"go.toolsManagement.autoUpdate": true,
 
-  // ========== JAVASCRIPT/TYPESCRIPT SETTINGS ==========
-  "js/ts.implicitProjectConfig.experimentalDecorators": true,
-  "javascript.updateImportsOnFileMove.enabled": "always",
-  "typescript.updateImportsOnFileMove.enabled": "always",
-  "debug.javascript.autoAttachFilter": "disabled",
+	// ========== JAVASCRIPT/TYPESCRIPT SETTINGS ==========
+	"js/ts.implicitProjectConfig.experimentalDecorators": true,
+	"javascript.updateImportsOnFileMove.enabled": "always",
+	"typescript.updateImportsOnFileMove.enabled": "always",
+	"debug.javascript.autoAttachFilter": "disabled",
 
-  // ========== GITHUB COPILOT SETTINGS ==========
-  "github.copilot.enable": {
-    "plaintext": true,
-    "markdown": true
-  },
+	// ========== GITHUB COPILOT SETTINGS ==========
+	"github.copilot.enable": {
+		"plaintext": true,
+		"markdown": true
+	},
 
-  // ========== FILE ASSOCIATIONS AND EXCLUSIONS ==========
-  "files.associations": {
-    "*.css": "tailwindcss"
-  },
-  "files.watcherExclude": {
-    "**/.bloop": true,
-    "**/.metals": true,
-    "**/.ammonite": true
-  },
+	// ========== FILE ASSOCIATIONS AND EXCLUSIONS ==========
+	"files.associations": {
+		"*.css": "tailwindcss"
+	},
+	"files.watcherExclude": {
+		"**/.bloop": true,
+		"**/.metals": true,
+		"**/.ammonite": true
+	},
 
-  // ========== NOTEBOOK/JUPYTER SETTINGS ==========
-  "notebook.output.wordWrap": true,
-  "notebook.output.scrolling": true,
-  "jupyter.askForKernelRestart": false
+	// ========== NOTEBOOK/JUPYTER SETTINGS ==========
+	"notebook.output.wordWrap": true,
+	"notebook.output.scrolling": true,
+	"jupyter.askForKernelRestart": false,
+	"notebook.editorOptionsCustomizations": {
+		"editor.tabSize": 4,
+		"editor.indentSize": 4,
+		"editor.insertSpaces": true
+	},
+
+  // ========= ETC ==========
+	"files.exclude": {
+		"**/.venv": true
+	}
 }
