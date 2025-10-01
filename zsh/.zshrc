@@ -79,6 +79,10 @@ if hasCommand kind && [[ ! -f "$FUNC_DIR/_kind" ]]; then
   kind completion zsh > "$FUNC_DIR/_kind"
 fi
 
+if hasCommand uv && [[ ! -f "$FUNC_DIR/_uv" ]]; then
+  uv generate-shell-completion zsh > "$FUNC_DIR/_uv"
+fi
+
 autoload -Uz compinit; compinit
 
 ### Plugins
