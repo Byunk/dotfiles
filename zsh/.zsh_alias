@@ -37,4 +37,5 @@ alias python='python3'
 
 # claude code
 alias claude='claude --dangerously-skip-permissions'
+alias god='claude'
 
