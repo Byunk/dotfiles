@@ -1,13 +1,6 @@
 {
   "includeCoAuthoredBy": false,
-  "enabledPlugins": {
-    "pr-review-toolkit@claude-code-plugins": true,
-    "feature-dev@claude-code-plugins": true,
-    "security-guidance@claude-code-plugins": true
-  },
-  "alwaysThinkingEnabled": true,
   "permissions": {
-    "defaultMode": "plan",
     "allow": [
       "Bash(docker ps:*)",
       "Bash(docker logs:*)",
@@ -114,6 +107,15 @@
       "Bash(reboot:*)",
       "Bash(halt:*)",
       "Bash(chmod -R 777 /*)"
-    ]
-  }
+    ],
+    "defaultMode": "plan"
+  },
+  "enabledPlugins": {
+    "pr-review-toolkit@claude-code-plugins": true,
+    "feature-dev@claude-code-plugins": true,
+    "security-guidance@claude-code-plugins": true,
+    "fullstack-dev@core-workflows": true,
+    "document-skills@anthropic-agent-skills": true
+  },
+  "alwaysThinkingEnabled": true
 }
