@@ -6,7 +6,6 @@ Follow language-specific best practices and style guides.
 
 - Do not add module level docstring since it seems written by AI
 - Do not add docstring for testing code
-- Use `from __future__ import annotations` instead of quoted types
 
 Always use the following tools for Python development:
 
