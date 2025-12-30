@@ -29,7 +29,7 @@ if ! [[ -f "$LOCAL_GITCONFIG" ]]; then
   esac
 
   read -r -p "Enter your git username: " GIT_USERNAME
-  read -r -p  "Enter your git email: " GIT_EMAIL
+  read -r -p "Enter your git email: " GIT_EMAIL
 
   sed \
     -e "s/AUTHORNAME/$GIT_USERNAME/g" \
@@ -61,20 +61,20 @@ create_netrc_machine() {
 if ! [[ -f "$LOCAL_NETRC" ]]; then
   info ".netrc not found, creating one"
 
-  read -r -p  "Enter your GitHub username: " GITHUB_USERNAME
-  read -r -p  "Enter your GitHub token: " GITHUB_TOKEN
+  read -r -p "Enter your GitHub username: " GITHUB_USERNAME
+  read -r -p "Enter your GitHub token: " GITHUB_TOKEN
 
   create_netrc_machine "github.com" "$GITHUB_USERNAME" "$GITHUB_TOKEN"
 
   while true; do
-    read -r -p  "Do you want to add a machine to .netrc? (y/n): " ADD_MACHINE
+    read -r -p "Do you want to add a machine to .netrc? (y/n): " ADD_MACHINE
     if [[ "$ADD_MACHINE" != "y" ]]; then
       break
     fi
 
-    read -r -p  "Enter your netrc machine: " NETRC_MACHINE
-    read -r -p  "Enter your netrc login: " NETRC_LOGIN
-    read -r -p  "Enter your netrc password: " NETRC_PASSWORD
+    read -r -p "Enter your netrc machine: " NETRC_MACHINE
+    read -r -p "Enter your netrc login: " NETRC_LOGIN
+    read -r -p "Enter your netrc password: " NETRC_PASSWORD
 
     create_netrc_machine "$NETRC_MACHINE" "$NETRC_LOGIN" "$NETRC_PASSWORD"
   done
@@ -121,6 +121,7 @@ done
 install "$ROOT_DIR/nvim" "$CONFIG_DIR/nvim"
 install "$ROOT_DIR/zellij" "$CONFIG_DIR/zellij"
 install "$ROOT_DIR/zsh" "$CONFIG_DIR/zsh"
+install "$ROOT_DIR/fzf" "$CONFIG_DIR/fzf"
 install "$ROOT_DIR/claude/agents" "$HOME/.claude/agents"
 install "$ROOT_DIR/claude/CLAUDE.md" "$HOME/.claude/CLAUDE.md"
 install "$ROOT_DIR/claude/settings.json" "$HOME/.claude/settings.json"

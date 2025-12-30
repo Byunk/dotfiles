@@ -107,6 +107,9 @@ fi
 # zellij
 # eval "$(zellij setup --generate-auto-start zsh)"
 
+# fzf
+source "$XDG_CONFIG_HOME/fzf/fzf-git.sh"
+
 # Stash your environment variables in ~/.localrc. This means they'll stay out
 # of your main dotfiles repository (which may be public, like this one), but
 # you'll have access to them in your scripts.
