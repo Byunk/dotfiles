@@ -1,30 +1,8 @@
-# Language Guidelines
+# CLAUDE.md
 
-Follow language-specific best practices and style guides.
+## Style Guidelines
 
-## Python
-
-- Do not add module level docstring since it seems written by AI
-- Do not add docstring for testing code
-
-Always use the following tools for Python development:
-
-- `uv` for package management
-- `ruff` for linting and formatting
-- `pytest` for testing
-
-## JavaScript/TypeScript
-
-Always use the following tools for JavaScript/TypeScript development:
-
-- `pnpm` for package management
-- `eslint` and `prettier` for linting and formatting
-- `vitest` for testing
-
-## Rust
-
-Always use the following tools for Rust development:
-
-- `cargo` for building and dependency management
-- `clippy` for linting
-- `cargo test` for testing
+- No emojis in code, comments, or documentation
+- Keep descriptions, comments, and documentation concise and to the point
+- Avoid robotic or overly formal language - write naturally and directly
+- Add comments only for important design decisions that require explanation to understand the code - otherwise skip them
