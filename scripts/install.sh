@@ -124,6 +124,7 @@ install "$ROOT_DIR/zsh" "$CONFIG_DIR/zsh"
 install "$ROOT_DIR/fzf" "$CONFIG_DIR/fzf"
 install "$ROOT_DIR/claude/agents" "$HOME/.claude/agents"
 install "$ROOT_DIR/claude/commands" "$HOME/.claude/commands"
+install "$ROOT_DIR/claude/hooks" "$HOME/.claude/hooks"
 install "$ROOT_DIR/claude/CLAUDE.md" "$HOME/.claude/CLAUDE.md"
 install "$ROOT_DIR/claude/settings.json" "$HOME/.claude/settings.json"
 

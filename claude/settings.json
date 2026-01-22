@@ -1,4 +1,28 @@
 {
+  "hooks": {
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node ~/.claude/hooks/scripts/notify.js"
+          }
+        ]
+      }
+    ],
+    "PermissionRequest": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node ~/.claude/hooks/scripts/notify.js"
+          }
+        ]
+      }
+    ]
+  },
   "env": {
     "BASH_DEFAULT_TIMEOUT_MS": "1800000",
     "BASH_MAX_TIMEOUT_MS": "7200000"
@@ -47,6 +71,7 @@
       "Bash(head:*)",
       "Bash(tail:*)",
       "Bash(grep:*)",
+      "Bash(awk:*)",
       "Bash(find:*)",
       "Bash(sort:*)",
       "Bash(cp:*)",
