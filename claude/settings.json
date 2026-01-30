@@ -112,30 +112,6 @@
     ],
     "defaultMode": "plan"
   },
-  "hooks": {
-    "Stop": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node ~/.claude/hooks/scripts/notify.js"
-          }
-        ]
-      }
-    ],
-    "PermissionRequest": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node ~/.claude/hooks/scripts/notify.js"
-          }
-        ]
-      }
-    ]
-  },
   "enabledPlugins": {
     "example-skills@anthropic-agent-skills": true,
     "essentials@claude-code-essentials": false,
