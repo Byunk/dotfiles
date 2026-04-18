@@ -1,0 +1,16 @@
+#
+# Usage: gwcd
+# Description: pick an existing git worktree via fzf and cd into it
+#
+gwcd() {
+  if ! command -v fzf >/dev/null 2>&1; then
+    echo "gwcd: fzf is required" >&2
+    return 1
+  fi
+  local dir
+  dir=$(git worktree list --porcelain \
+        | awk '/^worktree /{print $2}' \
+        | fzf --prompt='worktree> ') || return
+  cd "$dir"
+}
+gwcd "$@"

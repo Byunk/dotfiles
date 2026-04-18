@@ -1,0 +1,16 @@
+#
+# Usage: gwb <branch> [start-point]
+# Description: create a new git worktree at ../<branch> with a new branch of the same name
+#
+gwb() {
+  if [[ -z "$1" ]]; then
+    echo "usage: gwb <branch> [start-point]" >&2
+    return 1
+  fi
+  local branch="$1"
+  local start="${2:-HEAD}"
+  local root
+  root="$(git rev-parse --show-toplevel)" || return 1
+  git worktree add -b "$branch" "$root/../$branch" "$start"
+}
+gwb "$@"
