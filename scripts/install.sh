@@ -12,6 +12,7 @@ BACKUP_DIR="$HOME/.backup"
 
 mkdir -p "$CONFIG_DIR"
 mkdir -p "$BACKUP_DIR"
+mkdir -p "$HOME/.codex"
 
 git submodule update --init --recursive
 
@@ -122,11 +123,7 @@ install "$ROOT_DIR/nvim" "$CONFIG_DIR/nvim"
 install "$ROOT_DIR/zellij" "$CONFIG_DIR/zellij"
 install "$ROOT_DIR/zsh" "$CONFIG_DIR/zsh"
 install "$ROOT_DIR/fzf" "$CONFIG_DIR/fzf"
-install "$ROOT_DIR/claude/agents" "$HOME/.claude/agents"
-install "$ROOT_DIR/claude/commands" "$HOME/.claude/commands"
-install "$ROOT_DIR/claude/hooks" "$HOME/.claude/hooks"
-install "$ROOT_DIR/claude/CLAUDE.md" "$HOME/.claude/CLAUDE.md"
-install "$ROOT_DIR/claude/settings.json" "$HOME/.claude/settings.json"
+install "$ROOT_DIR/codex/AGENTS.md" "$HOME/.codex/AGENTS.md"
 
 # Files
 install "$ROOT_DIR/gitconfig.local" "$HOME/.gitconfig.local"
