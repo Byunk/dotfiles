@@ -25,6 +25,7 @@ cask "hiddenbar"
 cask "iterm2"
 cask "obsidian"
 cask "rectangle"
+cask "zed"
 
 mas "Amphetamine", id: 937984704
 mas "MonitorControl Lite", id: 1595464182

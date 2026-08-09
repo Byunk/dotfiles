@@ -10,11 +10,13 @@ ROOT_DIR=$(dirname "$CURR_DIR")
 CONFIG_DIR="$HOME/.config"
 BACKUP_DIR="$HOME/.backup"
 PI_AGENT_DIR="$HOME/.pi/agent"
+ZED_CONFIG_DIR="$CONFIG_DIR/zed"
 
 mkdir -p "$CONFIG_DIR"
 mkdir -p "$BACKUP_DIR"
 mkdir -p "$HOME/.codex"
 mkdir -p "$PI_AGENT_DIR"
+mkdir -p "$ZED_CONFIG_DIR"
 
 git submodule update --init --recursive
 
@@ -125,9 +127,6 @@ install "$ROOT_DIR/nvim" "$CONFIG_DIR/nvim"
 install "$ROOT_DIR/zellij" "$CONFIG_DIR/zellij"
 install "$ROOT_DIR/zsh" "$CONFIG_DIR/zsh"
 install "$ROOT_DIR/fzf" "$CONFIG_DIR/fzf"
-install "$ROOT_DIR/codex/AGENTS.md" "$HOME/.codex/AGENTS.md"
-install "$ROOT_DIR/pi/AGENTS.md" "$PI_AGENT_DIR/AGENTS.md"
-install "$ROOT_DIR/pi/settings.json" "$PI_AGENT_DIR/settings.json"
 
 # Files
 install "$ROOT_DIR/gitconfig.local" "$HOME/.gitconfig.local"
@@ -136,6 +135,12 @@ install "$ROOT_DIR/gitignore" "$HOME/.gitignore"
 install "$ROOT_DIR/netrc.local" "$HOME/.netrc"
 install "$ROOT_DIR/zshenv" "$HOME/.zshenv"
 install "$ROOT_DIR/mmf/config.plist" "$HOME/Library/Application Support/com.nuebling.mac-mouse-fix/config.plist"
+install "$ROOT_DIR/codex/AGENTS.md" "$HOME/.codex/AGENTS.md"
+install "$ROOT_DIR/pi/AGENTS.md" "$PI_AGENT_DIR/AGENTS.md"
+install "$ROOT_DIR/pi/settings.json" "$PI_AGENT_DIR/settings.json"
+install "$ROOT_DIR/zed/settings.json" "$ZED_CONFIG_DIR/settings.json"
+install "$ROOT_DIR/zed/keymap.json" "$ZED_CONFIG_DIR/keymap.json"
+
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
   install "$ROOT_DIR/vscode/settings.json" "$HOME/Library/Application Support/Code/User/settings.json"
