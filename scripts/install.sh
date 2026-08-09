@@ -9,12 +9,9 @@ ROOT_DIR=$(dirname "$CURR_DIR")
 
 CONFIG_DIR="$HOME/.config"
 BACKUP_DIR="$HOME/.backup"
-PI_AGENT_DIR="$HOME/.pi/agent"
 
 mkdir -p "$CONFIG_DIR"
 mkdir -p "$BACKUP_DIR"
-mkdir -p "$HOME/.codex"
-mkdir -p "$PI_AGENT_DIR"
 
 git submodule update --init --recursive
 
@@ -125,9 +122,6 @@ install "$ROOT_DIR/nvim" "$CONFIG_DIR/nvim"
 install "$ROOT_DIR/zellij" "$CONFIG_DIR/zellij"
 install "$ROOT_DIR/zsh" "$CONFIG_DIR/zsh"
 install "$ROOT_DIR/fzf" "$CONFIG_DIR/fzf"
-install "$ROOT_DIR/codex/AGENTS.md" "$HOME/.codex/AGENTS.md"
-install "$ROOT_DIR/pi/AGENTS.md" "$PI_AGENT_DIR/AGENTS.md"
-install "$ROOT_DIR/pi/settings.json" "$PI_AGENT_DIR/settings.json"
 
 # Files
 install "$ROOT_DIR/gitconfig.local" "$HOME/.gitconfig.local"

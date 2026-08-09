@@ -40,7 +40,5 @@ alias kc='kubectl --context'
 alias pip='pip3'
 alias python='python3'
 
-# coding agent
-alias claude='claude --dangerously-skip-permissions'
-alias god='codex'
-
+# Zed
+alias code='zed'
