@@ -141,6 +141,7 @@ install "$ROOT_DIR/agents/AGENTS.md" "$HOME/.codex/AGENTS.md"
 install "$ROOT_DIR/agents/skills" "$AGENTS_DIR/skills"
 install "$ROOT_DIR/pi/AGENTS.md" "$PI_AGENT_DIR/AGENTS.md"
 install "$ROOT_DIR/pi/settings.json" "$PI_AGENT_DIR/settings.json"
+install "$ROOT_DIR/agents/AGENTS.md" "$ZED_CONFIG_DIR/AGENTS.md"
 install "$ROOT_DIR/zed/settings.json" "$ZED_CONFIG_DIR/settings.json"
 install "$ROOT_DIR/zed/keymap.json" "$ZED_CONFIG_DIR/keymap.json"
 
